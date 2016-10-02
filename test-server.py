@@ -51,7 +51,7 @@ state = {
 
 counter = 0
 
-@app.route('/')
+@app.route('/', methods=["POST"])
 def state():
     user_id = request.form.get('user_id')
     user_name = request.form.get('user_name')
