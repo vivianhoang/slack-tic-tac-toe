@@ -151,7 +151,7 @@ def move():
             #if wrong move, list out available move
             available_moves = []
             for key in currentState.keys():
-                if currentState['key'] == " ":
+                if currentState.get(key, "") == " ":
                     available_moves.append(key)
 
                 return "Please enter a move: %s." % (", ".join(available_moves))
