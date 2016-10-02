@@ -44,7 +44,7 @@ entryPositionNames = {
 # def verifyPosition(position):
 #     if entryPositionNames[position]:
 
-
+print "hello"
 
 
 @app.route('/board')
