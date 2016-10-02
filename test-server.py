@@ -94,7 +94,7 @@ def decline():
     if currentState.get('invited_player', "") == declined and currentState.get("in_progress", "") == False:
         return "%s has declined the game." % currentState['invited_player']
     else:
-        "You do have permission to do this time."
+        return "You do have permission to do this at this time."
 
 
 @app.route('/end_game')
@@ -103,6 +103,8 @@ def end():
     if currentState.get('in_progress', "") == True:
         currentState['in_progress'] = False
         return "The game has ended."
+    else:
+        return "You do not have permission to do this at this time."
 
 
 @app.route('/board')
