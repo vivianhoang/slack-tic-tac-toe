@@ -61,7 +61,8 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
-    print request
+    username = request.form.get('user_name')
+    return username
 
 if __name__ == '__main__':
 
