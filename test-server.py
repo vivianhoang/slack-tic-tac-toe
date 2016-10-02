@@ -61,8 +61,12 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
-    username = request.form.get('user_name')
-    return username
+    position = request.form.get('text')
+    # check if position is valid and it doesnt have a value
+    if entryPositionNames[position]:
+        return "Valid Move"
+    
+    return "Please enter a move."
 
 if __name__ == '__main__':
 
