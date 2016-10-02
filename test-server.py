@@ -157,10 +157,12 @@ def move():
                 current_letter = currentState['players'][person_submitted]['letter']
                 print current_letter
                 entryPositionNames[position] = current_letter
-                for key in currentState['players'].keys():
-                    if key != person_submitted:
-                        currentState['current_player'] = key
-                        print "wow %s" % (key)
+                usernames = currentState['players'].keys()
+                user_info = usernames.keys()
+                for val in user_info.value():
+                    if val != current_letter:
+                        currentState['current_player'] = val
+                        print "wow %s" % (val)
                 # set current user to the next user
                 return redirect('/board')
         else:
