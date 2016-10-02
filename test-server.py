@@ -60,7 +60,7 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
-    person = request.form.get(user_name)
+    person = request.form.get('user_name')
     if current_user == person:
         position = 'hello'
         inputPosition = request.form.get('text')
