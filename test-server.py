@@ -24,11 +24,8 @@ from flask import Flask, request
 import os
 
 app = Flask(__name__)
-app.secret_key = "ABC123"  # For demo only.
-# entries = {
-#     topLeft: "O",
-#     bottomRight: "X",
-# }
+app.secret_key = "ABC123"  # For example only
+
 
 entryPositionNames = {
     'top-left': " ",
@@ -42,7 +39,7 @@ entryPositionNames = {
     'bottom-right': " ",
 }
 
-state = {
+currentState = {
     "in_progress": False,
     "players": None,
     "invited_user_name": None,
@@ -57,13 +54,13 @@ def state():
     user_name = request.form.get('user_name')
     invited_player = request.form.get('text')
     print user_id, user_name, invited_player
-    print state
-    state['invited_user_name'] = invited_player
-    state['players'][user_name] = {
+    print currentState
+    currentState['invited_user_name'] = invited_player
+    currentState['players'][user_name] = {
         "user_name": user_name,
         "user_id": user_id
     }
-    return state
+    return currentState
 
 @app.route('/board')
 def board():
