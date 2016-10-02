@@ -83,7 +83,7 @@ def accept_invite():
         "user_name": user_name2,
         "user_id": user_id2
     }
-    currentState["in_progress"] == True:
+    if currentState.get("in_progress","") == True:
         return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
 
     return redirect('/board')
@@ -101,7 +101,7 @@ def decline():
 def end():
     # if user is creator or invited
     if currentState.get('in_progress', "") == True:
-        currentState['in_progress'] == False
+        currentState['in_progress'] = False
         return "The game has ended."
 
 
