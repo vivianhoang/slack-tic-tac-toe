@@ -65,7 +65,7 @@ def state():
 @app.route('/board')
 def board():
 
-    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is @%s's turn.```" \
+    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
     % (entryPositionNames['top-left'], \
        entryPositionNames['top-middle'], \
        entryPositionNames['top-right'], \
@@ -77,25 +77,26 @@ def board():
        entryPositionNames['bottom-right'], \
        currentState['current_player'])
 
+
 @app.route('/move', methods=["POST"])
 def move():
     person = request.form.get('user_name')
-    position = 'hello'
-    inputPosition = request.form.get('text')
-    if inputPosition:
-        position = inputPosition
-    # check if position is valid and it doesnt have a value
-    if position in entryPositionNames:
-        global counter
-        counter += 1
-        print counter
-        return "Valid Move, %s" % (counter)
-        # create helper function to see if someone one
-        # helper function to place X or O in correct position
-    else:
-        #if wrong move, list out available move
+    if currentState['current_player'] == person:
+        position = 'hello'
+        inputPosition = request.form.get('text')
+        if inputPosition:
+            position = inputPosition
+        # check if position is valid and it doesnt have a value
+        if position in entryPositionNames:
+            global counter
+            counter += 1
+            return "Valid Move, %s, %s" % (counter, person)
+            # create helper function to see if someone one
+            # helper function to place X or O in correct position
+        else:
+            #if wrong move, list out available move
 
-        return "Please enter a move."
+            return "Please enter a move."
 
 if __name__ == '__main__':
 
