@@ -49,14 +49,14 @@ entryPositionNames = {
 def board():
 
     return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |```" \
-    % (entryPositionNames['top-left'] \
-       entryPositionNames['top-middle'] \
-       entryPositionNames['top-right'] \
-       entryPositionNames['middle-left'] \
-       entryPositionNames['middle'] \
-       entryPositionNames['middle-right'] \
-       entryPositionNames['bottom-left'] \
-       entryPositionNames['bottom-middle'] \
+    % (entryPositionNames['top-left'], \
+       entryPositionNames['top-middle'], \
+       entryPositionNames['top-right'], \
+       entryPositionNames['middle-left'], \
+       entryPositionNames['middle'], \
+       entryPositionNames['middle-right'], \
+       entryPositionNames['bottom-left'], \
+       entryPositionNames['bottom-middle'], \
        entryPositionNames['bottom-right'])
 
 # @app.route('/play')
