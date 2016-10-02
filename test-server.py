@@ -59,7 +59,7 @@ def board():
        entryPositionNames['bottom-middle'], \
        entryPositionNames['bottom-right'])
 
-@app.route('/move', methods="POST")
+@app.route('/move', methods=["POST"])
 def move():
     print request
 
