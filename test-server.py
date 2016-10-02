@@ -85,7 +85,7 @@ def move():
     print person_submitted
     print current
 
-    if current == person_submitted:
+    if current == ('@' + person_submitted):
         position = 'hello'
         inputPosition = request.form.get('text')
         if inputPosition:
