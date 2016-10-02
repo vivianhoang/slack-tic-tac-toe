@@ -67,9 +67,10 @@ def move():
         position = inputPosition
     # check if position is valid and it doesnt have a value
     if position in entryPositionNames:
+        global counter
         counter += 1
         print counter
-        return "Valid Move", counter, user_name
+        return "Valid Move, %s" % (counter)
         # create helper function to see if someone one
         # helper function to place X or O in correct position
     else:
