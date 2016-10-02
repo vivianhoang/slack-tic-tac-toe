@@ -54,7 +54,7 @@ def state():
     user_name = request.form.get('user_name')
     invited_player = request.form.get('text')
     currentState['invited_user_name'] = invited_player
-    currentState['current_player'] = user_name
+    currentState['current_player'] = invited_player
     currentState['players'][user_name] = {
         "user_name": user_name,
         "user_id": user_id
@@ -65,9 +65,8 @@ def state():
 @app.route('/board')
 def board():
 
-    return "```It is @%s's turn.\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |```" \
-    % (currentState[current_player]
-       entryPositionNames['top-left'], \
+    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is @%s's turn.```" \
+    % (entryPositionNames['top-left'], \
        entryPositionNames['top-middle'], \
        entryPositionNames['top-right'], \
        entryPositionNames['middle-left'], \
@@ -75,7 +74,8 @@ def board():
        entryPositionNames['middle-right'], \
        entryPositionNames['bottom-left'], \
        entryPositionNames['bottom-middle'], \
-       entryPositionNames['bottom-right'])
+       entryPositionNames['bottom-right'], \
+       currentState['current_player'])
 
 @app.route('/move', methods=["POST"])
 def move():
