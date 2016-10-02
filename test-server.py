@@ -57,7 +57,6 @@ def state():
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
         invited_player = request.form.get('text')
-        invited_player = invited_player
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
             "user_name": user_name,
@@ -91,7 +90,7 @@ def accept_invite():
 @app.route('/decline', methods=["POST"])
 def decline():
     declined = request.form.get('user_name')
-    if currentState.get('invited_player', "") == declined and currentState.get("in_progress", "") == False:
+    if currentState.get('invited_player_username', "") == declined and currentState.get("in_progress", "") == False:
         return "%s has declined the game." % currentState['invited_player']
     else:
         return "You do have permission to do this at this time."
