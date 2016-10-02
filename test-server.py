@@ -61,7 +61,7 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
-    position = ""
+    position = 'hello'
     inputPosition = request.form.get('text')
     if inputPosition:
         position = inputPosition
