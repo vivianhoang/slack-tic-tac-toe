@@ -154,8 +154,13 @@ def move():
                 return "This square is already taken. Please choose another."
             else:
                 print current
-                current_letter = currentState['players'][current]['letter']
+                current_letter = currentState['players'][person_submitted]['letter']
+                print current_letter
                 entryPositionNames[position] = current_letter
+                for key in currentState['players'].keys():
+                    if key != person_submitted:
+                        currentState['current_player'] = key
+                        print "wow %s" % (key)
                 # set current user to the next user
                 return redirect('/board')
         else:
