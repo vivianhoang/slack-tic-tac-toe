@@ -30,17 +30,17 @@ app.secret_key = "ABC123"  # For demo only.
 #     bottomRight: "X",
 # }
 
-entryPositionNames = {
-    'top-left': True,
-    'top-middle': True,
-    'top-right': True,
-    'middle-left': True,
-    'middle': True,
-    'middle-right': True,
-    'bottom-left': True,
-    'bottom-middle': True,
-    'bottom-right': True,
-}
+# entryPositionNames = {
+#     'top-left': True,
+#     'top-middle': True,
+#     'top-right': True,
+#     'middle-left': True,
+#     'middle': True,
+#     'middle-right': True,
+#     'bottom-left': True,
+#     'bottom-middle': True,
+#     'bottom-right': True,
+# }
 
 # def verifyPosition(position):
 #     if entryPositionNames[position]:
