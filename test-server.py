@@ -55,7 +55,7 @@ def home():
 @app.route('/board')
 def board():
 
-    return "```[.][.][.]<br>[.][.][.]<br>[.][.][.]```"
+    return "```[.][.][.]\n[.][.][.]\n[.][.][.]```"
 
 # @app.route('/play')
 # def 
