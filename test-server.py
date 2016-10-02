@@ -82,6 +82,8 @@ def board():
 def move():
     person_submitted = request.form.get('user_name')
     current = currentState.get('current_player', "")
+    print person_submitted
+    print current
 
     if current == person_submitted:
         position = 'hello'
@@ -100,7 +102,7 @@ def move():
 
             return "Please enter a move."
     else:
-        pass
+        return "What a nice day."
 
 if __name__ == '__main__':
 
