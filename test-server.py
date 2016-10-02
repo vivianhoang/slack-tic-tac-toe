@@ -67,7 +67,7 @@ def state():
         print currentState['players']
 
         return "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" % \
-            (user_name, invited_player)
+            (user_name, invited_player, invited_player)
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
@@ -83,6 +83,7 @@ def accept_invite():
         "user_name": user_name2,
         "user_id": user_id2
     }
+    currentState["in_progress"] == True:
 
     return redirect('/board')
 
