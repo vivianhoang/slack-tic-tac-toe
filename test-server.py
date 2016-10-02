@@ -61,7 +61,8 @@ def state():
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
             "user_name": user_name,
-            "user_id": user_id
+            "user_id": user_id,
+            "letter": "X"
         }
 
         print currentState['players']
@@ -83,7 +84,8 @@ def accept_invite():
     print "hello", currentState.get('current_player', "")
     currentState['players'][user_name2] = {
         "user_name": user_name2,
-        "user_id": user_id2
+        "user_id": user_id2,
+        "letter": "O"
     }
     if currentState.get("in_progress","") == True:
         return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
@@ -133,8 +135,6 @@ def move():
     person_submitted = request.form.get('user_name')
     person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
-    print person_submitted
-    print current
 
     if current == ('@' + person_submitted):
         position = 'hello'
@@ -153,7 +153,9 @@ def move():
             if currentPositionEntry != " ":
                 return "This square is already taken. Please choose another."
             else:
-                entryPositionNames[position] = 'X'
+                print current
+                current_letter = currentState['players'][current]['letter']
+                entryPositionNames[position] = current_letter
                 # set current user to the next user
                 return redirect('/board')
         else:
