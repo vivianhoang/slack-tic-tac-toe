@@ -84,18 +84,25 @@ def accept_invite():
         "user_id": user_id2
     }
     currentState["in_progress"] == True:
+        return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
 
     return redirect('/board')
 
 @app.route('/decline')
 def decline():
-
-    return "%s has declined the game." % currentState[invited_player]
+    declined = request.form.get('user_name')
+    if currentState.get('invited_player', "") == declined and currentState.get("in_progress", "") == False:
+        return "%s has declined the game." % currentState[invited_player]
+    else:
+        "You do have permission to do this time."
 
 
 @app.route('/end_game')
 def end():
-    pass
+    # if user is creator or invited
+    if currentState.get('in_progress', "") == True:
+        currentState['in_progress'] == False
+        return "The game has ended."
 
 
 @app.route('/board')
