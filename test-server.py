@@ -65,7 +65,7 @@ def state():
             "letter": "X"
         }
 
-        print currentState['players']
+        print "1 ", currentState['players']
 
         return "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" % \
             (user_name, invited_player, invited_player)
@@ -153,16 +153,17 @@ def move():
             if currentPositionEntry != " ":
                 return "This square is already taken. Please choose another."
             else:
-                print current
+                print "yes ", current
                 current_letter = currentState['players'][person_submitted]['letter']
-                print current_letter
+                print "no ", current_letter
                 entryPositionNames[position] = current_letter
                 usernames = currentState['players'].keys()
                 user_info = usernames.keys()
-                for val in user_info.value():
-                    if val != current_letter:
-                        currentState['current_player'] = val
-                        print "wow %s" % (val)
+                for key in usernames:
+                    for key2, val in user_info.items():
+                        if val != current_letter:
+                            currentState['current_player'] = key
+                            print "wow %s" % (val)
                 # set current user to the next user
                 return redirect('/board')
         else:
