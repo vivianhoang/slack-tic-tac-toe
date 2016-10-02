@@ -31,15 +31,15 @@ app.secret_key = "ABC123"  # For demo only.
 # }
 
 entryPositionNames = {
-    'top-left': "+",
-    'top-middle': True,
-    'top-right': True,
-    'middle-left': True,
-    'middle': True,
-    'middle-right': True,
-    'bottom-left': True,
-    'bottom-middle': True,
-    'bottom-right': True,
+    'top-left': " ",
+    'top-middle': " ",
+    'top-right': " ",
+    'middle-left': " ",
+    'middle': " ",
+    'middle-right': " ",
+    'bottom-left': " ",
+    'bottom-middle': " ",
+    'bottom-right': " ",
 }
 
 # def verifyPosition(position):
@@ -48,7 +48,16 @@ entryPositionNames = {
 @app.route('/board')
 def board():
 
-    return "```| %s | O | O |\n|---+---+---|\n| X | O | O |\n|---+---+---|\n| X | O | O |```" % entryPositionNames['top-left']
+    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |```" \
+    % (entryPositionNames['top-left'] \
+       entryPositionNames['top-middle'] \
+       entryPositionNames['top-right'] \
+       entryPositionNames['middle-left'] \
+       entryPositionNames['middle'] \
+       entryPositionNames['middle-right'] \
+       entryPositionNames['bottom-left'] \
+       entryPositionNames['bottom-middle'] \
+       entryPositionNames['bottom-right'])
 
 # @app.route('/play')
 # def 
