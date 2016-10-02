@@ -88,7 +88,7 @@ def accept_invite():
 
     return redirect('/board')
 
-@app.route('/decline', method=["POST"])
+@app.route('/decline', methods=["POST"])
 def decline():
     declined = request.form.get('user_name')
     if currentState.get('invited_player', "") == declined and currentState.get("in_progress", "") == False:
