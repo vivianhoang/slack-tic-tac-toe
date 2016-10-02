@@ -59,7 +59,7 @@ def state():
         "user_name": user_name,
         "user_id": user_id
     }
-    print currentState['invited_user_name']
+
     return redirect('/board')
 
 @app.route('/board')
@@ -80,8 +80,10 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
-    person = request.form.get('user_name')
-    if currentState['current_player'] == person:
+    person_submitted = request.form.get('user_name')
+    current = currentState.get('current_player', "")
+
+    if current == person_submitted:
         position = 'hello'
         inputPosition = request.form.get('text')
         if inputPosition:
@@ -90,13 +92,15 @@ def move():
         if position in entryPositionNames:
             global counter
             counter += 1
-            return "Valid Move, %s, %s" % (counter, person)
+            return "Valid Move, %s, %s" % (counter, person_submitted)
             # create helper function to see if someone one
             # helper function to place X or O in correct position
         else:
             #if wrong move, list out available move
 
             return "Please enter a move."
+    else:
+        pass
 
 if __name__ == '__main__':
 
