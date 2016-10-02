@@ -68,8 +68,8 @@ def move():
     # check if position is valid and it doesnt have a value
     if entryPositionNames[position]:
         return "Valid Move"
-    
-    return "Please enter a move."
+    else:
+        return "Please enter a move."
 
 if __name__ == '__main__':
 
