@@ -42,7 +42,7 @@ entryPositionNames = {
     'bottom-right': " ",
 }
 
-state {
+state = {
     in_progress: False,
     players: {},
     invited_user_name: "",
