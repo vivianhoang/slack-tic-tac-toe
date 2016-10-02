@@ -43,10 +43,10 @@ entryPositionNames = {
 }
 
 state = {
-    in_progress: False,
-    players: {},
-    invited_user_name: "",
-    current_player: "",
+    "in_progress": False,
+    "players": {},
+    "invited_user_name": "",
+    "current_player": "",
 }
 
 counter = 0
@@ -57,9 +57,9 @@ def state():
     user_name = request.form.get('user_name')
     invited_player = request.form.get('text')
     state['invited_user_name'] = invited_player
-    state['players'][user_id] = {
-        user_name: user_name,
-        user_id: user_id
+    state['players'][user_name] = {
+        "user_name": user_name,
+        "user_id": user_id
     }
     return state
 
