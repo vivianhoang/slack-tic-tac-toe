@@ -41,9 +41,9 @@ entryPositionNames = {
 
 currentState = {
     "in_progress": False,
-    "players": None,
-    "invited_user_name": None,
-    "current_player": None,
+    "players": {},
+    "invited_user_name": " ",
+    "current_player": " ",
 }
 
 counter = 0
