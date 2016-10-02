@@ -113,15 +113,15 @@ def end():
 def board():
 
     return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
-    % (entryPositionNames['top-left'], \
-       entryPositionNames['top-middle'], \
-       entryPositionNames['top-right'], \
-       entryPositionNames['middle-left'], \
-       entryPositionNames['middle'], \
-       entryPositionNames['middle-right'], \
-       entryPositionNames['bottom-left'], \
-       entryPositionNames['bottom-middle'], \
-       entryPositionNames['bottom-right'], \
+    % (entryPositionNames['top-left'],
+       entryPositionNames['top-middle'],
+       entryPositionNames['top-right'],
+       entryPositionNames['middle-left'],
+       entryPositionNames['middle'],
+       entryPositionNames['middle-right'],
+       entryPositionNames['bottom-left'],
+       entryPositionNames['bottom-middle'],
+       entryPositionNames['bottom-right'],
        currentState['current_player'])
 
 
@@ -147,8 +147,12 @@ def move():
             # helper function to place X or O in correct position
         else:
             #if wrong move, list out available move
+            available_moves = []
+            for key in currentState.keys():
+                if currentState['key'] == " ":
+                    available_moves.append(key)
 
-            return "Please enter a move."
+                return "Please enter a move: %s." % (", ".join(available_moves))
     else:
         return "What a nice day."
 
