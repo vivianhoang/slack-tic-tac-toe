@@ -90,6 +90,8 @@ def accept_invite():
 @app.route('/decline', methods=["POST"])
 def decline():
     declined = request.form.get('user_name')
+    print declined
+    print currentState['invited_player_username']
     if currentState.get('invited_player_username', "") == declined and currentState.get("in_progress", "") == False:
         return "%s has declined the game." % currentState['invited_player_username']
     else:
