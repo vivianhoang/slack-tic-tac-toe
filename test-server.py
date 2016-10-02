@@ -161,7 +161,7 @@ def move():
             available_moves = []
             for key in entryPositionNames.keys():
                 available_moves.append(key)
-                return "Please enter a valid move: %s." % (", ".join(available_moves))
+            return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
         return
