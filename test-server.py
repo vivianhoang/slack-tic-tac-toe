@@ -66,7 +66,7 @@ def move():
     if inputPosition:
         position = inputPosition
     # check if position is valid and it doesnt have a value
-    if entryPositionNames[position]:
+    if position in entryPositionNames:
         return "Valid Move"
     else:
         return "Please enter a move."
