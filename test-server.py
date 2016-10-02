@@ -30,32 +30,25 @@ app.secret_key = "ABC123"  # For demo only.
 #     bottomRight: "X",
 # }
 
-# entryPositionNames = {
-#     'top-left': True,
-#     'top-middle': True,
-#     'top-right': True,
-#     'middle-left': True,
-#     'middle': True,
-#     'middle-right': True,
-#     'bottom-left': True,
-#     'bottom-middle': True,
-#     'bottom-right': True,
-# }
+entryPositionNames = {
+    'top-left': "+",
+    'top-middle': True,
+    'top-right': True,
+    'middle-left': True,
+    'middle': True,
+    'middle-right': True,
+    'bottom-left': True,
+    'bottom-middle': True,
+    'bottom-right': True,
+}
 
 # def verifyPosition(position):
 #     if entryPositionNames[position]:
 
-print "hello"
-
-@app.route('/')
-def home():
-
-    return "Hello"
-
 @app.route('/board')
 def board():
 
-    return "```| X | O | O |\n|---+---+---|\n| X | O | O |\n|---+---+---|\n| X | O | O |```"
+    return "```| %s | O | O |\n|---+---+---|\n| X | O | O |\n|---+---+---|\n| X | O | O |```" % entryPositionNames['top-left']
 
 # @app.route('/play')
 # def 
