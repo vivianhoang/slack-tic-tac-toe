@@ -24,10 +24,10 @@ from flask import Flask
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For demo only.
-entries: {
-    topLeft: "O",
-    bottomRight: "X",
-}
+# entries = {
+#     topLeft: "O",
+#     bottomRight: "X",
+# }
 
 entryPositionNames = {
     'top-left': True,
@@ -55,6 +55,6 @@ def board():
 # @app.route('/play')
 # def 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     
-#     app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0")
