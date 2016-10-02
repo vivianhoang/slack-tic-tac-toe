@@ -57,6 +57,7 @@ def state():
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
         invited_player = request.form.get('text')
+        currentState['creator'] = '@' + user_name
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
             "user_name": user_name,
@@ -151,9 +152,9 @@ def move():
         else:
             #if wrong move, list out available move
             available_moves = []
-            for key in currentState.keys():
+            for key in entryPositionNames.keys():
                 print key
-                if currentState.get(key, "") == " ":
+                if entryPositionNames.get(key, "") == " ":
                     available_moves.append(key)
 
             return "Please enter a move: %s." % (", ".join(available_moves))
