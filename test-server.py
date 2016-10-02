@@ -20,7 +20,7 @@
 #     app.run(debug=True)
 
 
-from flask import Flask, request
+from flask import Flask, request, redirect
 import os
 
 app = Flask(__name__)
@@ -60,7 +60,7 @@ def state():
         "user_name": user_name,
         "user_id": user_id
     }
-    print currentState
+    print currentState['invited_user_name']
     return redirect('/board')
 
 @app.route('/board')
