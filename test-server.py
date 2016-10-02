@@ -57,7 +57,7 @@ def state():
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
         invited_player = request.form.get('text')
-        invited_player = '@'+invited_player
+        invited_player = invited_player
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
             "user_name": user_name,
@@ -78,7 +78,7 @@ def state():
 def accept_invite():
     user_id2 = request.form.get('user_id')
     user_name2 = request.form.get('user_name')
-    currentState[current_player] = user_id2
+    currentState['current_player'] = user_id2
     currentState['players'][user_name2] = {
         "user_name": user_name2,
         "user_id": user_id2
@@ -88,11 +88,11 @@ def accept_invite():
 
     return redirect('/board')
 
-@app.route('/decline')
+@app.route('/decline', method=["POST"])
 def decline():
     declined = request.form.get('user_name')
     if currentState.get('invited_player', "") == declined and currentState.get("in_progress", "") == False:
-        return "%s has declined the game." % currentState[invited_player]
+        return "%s has declined the game." % currentState['invited_player']
     else:
         "You do have permission to do this time."
 
@@ -129,7 +129,7 @@ def move():
     print person_submitted
     print current
 
-    if current == ('@' + person_submitted):
+    if current == person_submitted:
         position = 'hello'
         inputPosition = request.form.get('text')
         if inputPosition:
