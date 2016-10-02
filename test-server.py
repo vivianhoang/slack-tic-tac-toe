@@ -20,7 +20,7 @@
 #     app.run(debug=True)
 
 
-from flask import Flask
+from flask import Flask, requests
 import os
 
 app = Flask(__name__)
@@ -59,8 +59,9 @@ def board():
        entryPositionNames['bottom-middle'], \
        entryPositionNames['bottom-right'])
 
-# @app.route('/play')
-# def 
+@app.route('/move', methods="POST")
+def move():
+    print request
 
 if __name__ == '__main__':
 
