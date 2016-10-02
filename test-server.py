@@ -143,23 +143,29 @@ def move():
             position = inputPosition
         # check if position is valid and it doesnt have a value
         if position in entryPositionNames:
-            global counter
-            counter += 1
+            # global counter
+            # counter += 1
             # must include board view/change
-            return "Valid Move, %s, %s" % (counter, person_submitted)
+            # return "Valid Move, %s, %s" % (counter, person_submitted)
             # create helper function to see if someone one
             # helper function to place X or O in correct position
+            currentPositionEntry = entryPositionNames.get(position, "")
+            if currentPositionEntry != " ":
+                return "This square is already taken. Please choose another."
+            else:
+                entryPositionNames[position] = 'X'
+                # set current user to the next user
+                return redirect('/board')
         else:
             #if wrong move, list out available move
             available_moves = []
             for key in entryPositionNames.keys():
-                print key
                 if entryPositionNames.get(key, "") == " ":
                     available_moves.append(key)
+                    return "Please enter a valid move: %s." % (", ".join(available_moves))
 
-            return "Please enter a move: %s." % (", ".join(available_moves))
     else:
-        return "What a nice day."
+        return
 
 if __name__ == '__main__':
 
