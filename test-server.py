@@ -40,7 +40,7 @@ entryPositionNames = {
 }
 
 currentState = {
-    "in_progress": False,
+    "in_progress": True,
     "players": {},
     "invited_user_name": " ",
     "current_player": " ",
@@ -53,9 +53,8 @@ def state():
     user_id = request.form.get('user_id')
     user_name = request.form.get('user_name')
     invited_player = request.form.get('text')
-    print user_id, user_name, invited_player
-    print currentState
     currentState['invited_user_name'] = invited_player
+    currentState['current_player'] = user_name
     currentState['players'][user_name] = {
         "user_name": user_name,
         "user_id": user_id
@@ -66,8 +65,9 @@ def state():
 @app.route('/board')
 def board():
 
-    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |```" \
-    % (entryPositionNames['top-left'], \
+    return "```It is @%s's turn.\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |```" \
+    % (currentState[current_player]
+       entryPositionNames['top-left'], \
        entryPositionNames['top-middle'], \
        entryPositionNames['top-right'], \
        entryPositionNames['middle-left'], \
