@@ -112,6 +112,7 @@ def end():
 
 @app.route('/board')
 def board():
+    # need to check if game is in session
 
     return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
     % (entryPositionNames['top-left'],
@@ -151,10 +152,11 @@ def move():
             #if wrong move, list out available move
             available_moves = []
             for key in currentState.keys():
+                print key
                 if currentState.get(key, "") == " ":
                     available_moves.append(key)
 
-                return "Please enter a move: %s." % (", ".join(available_moves))
+            return "Please enter a move: %s." % (", ".join(available_moves))
     else:
         return "What a nice day."
 
