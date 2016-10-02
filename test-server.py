@@ -41,8 +41,9 @@ entryPositionNames = {
     'bottom-right': True,
 }
 
-def verifyPosition(position):
-    if position in entries:
+# def verifyPosition(position):
+#     if entryPositionNames[position]:
+
 
 
 
@@ -51,10 +52,9 @@ def board():
 
     return "[.][.][.]<br>[.][.][.]<br>[.][.][.]"
 
-@app.route('/x')
-def x():
-    return "you have an x"
+# @app.route('/play')
+# def 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     
-    app.run(host="0.0.0.0")
+#     app.run(host="0.0.0.0")
