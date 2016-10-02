@@ -60,6 +60,10 @@ def board():
 # @app.route('/play')
 # def 
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+if __name__ == '__main__':
+
+
+    DEBUG = "NO_DEBUG" not in os.environ
+    PORT = int(os.environ.get("PORT", 5000))
+
+    app.run(host="0.0.0.0", port=PORT, debug=DEBUG)
