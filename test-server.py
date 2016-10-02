@@ -89,9 +89,12 @@ def accept_invite():
 @app.route('/decline')
 def decline():
 
+    return "%s has declined the game." % currentState[invited_player]
+
 
 @app.route('/end_game')
 def end():
+    pass
 
 
 @app.route('/board')
