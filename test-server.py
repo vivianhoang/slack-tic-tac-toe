@@ -40,27 +40,59 @@ entryPositionNames = {
 }
 
 currentState = {
-    "in_progress": True,
-    "players": {},
+    "in_progress": False,
+    "creator": " ",
     "invited_user_name": " ",
+    "accepted_invite": False,
+    "players": {},
     "current_player": " ",
 }
 
 counter = 0
 
+
 @app.route('/', methods=["POST"])
 def state():
-    user_id = request.form.get('user_id')
-    user_name = request.form.get('user_name')
-    invited_player = request.form.get('text')
-    currentState['invited_user_name'] = invited_player
-    currentState['current_player'] = invited_player
-    currentState['players'][user_name] = {
-        "user_name": user_name,
-        "user_id": user_id
+    if currentState.get("in_progress","") == False:
+        user_id = request.form.get('user_id')
+        user_name = request.form.get('user_name')
+        invited_player = request.form.get('text')
+        invited_player = '@'+invited_player
+        currentState['invited_user_name'] = invited_player
+        currentState['players'][user_name] = {
+            "user_name": user_name,
+            "user_id": user_id
+        }
+
+        print currentState['players']
+
+        return "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" % \
+            (user_name, invited_player)
+
+    else:
+        return "A game is already in session between %s and %s. To see the current game," \
+            "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
+
+
+@app.route('/accept', methods=["POST"])
+def accept_invite():
+    user_id2 = request.form.get('user_id')
+    user_name2 = request.form.get('user_name')
+    currentState[current_player] = user_id2
+    currentState['players'][user_name2] = {
+        "user_name": user_name2,
+        "user_id": user_id2
     }
 
     return redirect('/board')
+
+@app.route('/decline')
+def decline():
+
+
+@app.route('/end_game')
+def end():
+
 
 @app.route('/board')
 def board():
@@ -81,6 +113,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     person_submitted = request.form.get('user_name')
+    person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
     print person_submitted
     print current
@@ -94,6 +127,7 @@ def move():
         if position in entryPositionNames:
             global counter
             counter += 1
+            currentState['current_player'] = 
             return "Valid Move, %s, %s" % (counter, person_submitted)
             # create helper function to see if someone one
             # helper function to place X or O in correct position
