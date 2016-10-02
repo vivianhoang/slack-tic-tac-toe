@@ -160,9 +160,8 @@ def move():
             #if wrong move, list out available move
             available_moves = []
             for key in entryPositionNames.keys():
-                if entryPositionNames.get(key, "") == " ":
-                    available_moves.append(key)
-                    return "Please enter a valid move: %s." % (", ".join(available_moves))
+                available_moves.append(key)
+                return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
         return
