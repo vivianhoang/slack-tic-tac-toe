@@ -60,6 +60,7 @@ def state():
         "user_name": user_name,
         "user_id": user_id
     }
+    print currentState
     return redirect('/board')
 
 @app.route('/board')
