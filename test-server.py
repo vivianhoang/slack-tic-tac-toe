@@ -130,7 +130,6 @@ def move():
         if position in entryPositionNames:
             global counter
             counter += 1
-            currentState['current_player'] = 
             return "Valid Move, %s, %s" % (counter, person_submitted)
             # create helper function to see if someone one
             # helper function to place X or O in correct position
