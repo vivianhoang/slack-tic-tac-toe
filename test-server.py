@@ -79,6 +79,7 @@ def accept_invite():
     user_name2 = request.form.get('user_name')
     user_name2 = '@' + user_name2
     currentState['current_player'] = user_name2
+    print "hello", currentState.get('current_player', "")
     currentState['players'][user_name2] = {
         "user_name": user_name2,
         "user_id": user_id2
@@ -142,6 +143,7 @@ def move():
         if position in entryPositionNames:
             global counter
             counter += 1
+            # must include board view/change
             return "Valid Move, %s, %s" % (counter, person_submitted)
             # create helper function to see if someone one
             # helper function to place X or O in correct position
