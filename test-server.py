@@ -25,7 +25,7 @@ import requests
 import os
 from slackclient import SlackClient
 
-SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
+SLACK_TOKEN = 'xoxp-85301562257-85290535280-86563138338-d0bcb322a92cb383e57654563a23e531'
 
 slack_client = SlackClient(SLACK_TOKEN)
 
@@ -90,7 +90,8 @@ def state():
         #                 ]})
 
 
-        return slack_client.api_call("chat.postMessage", channel="#announcements", text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
+        r = slack_client.api_call("chat.postMessage", channel="#announcements", text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
+        return r
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
