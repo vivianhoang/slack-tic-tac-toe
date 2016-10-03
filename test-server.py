@@ -92,6 +92,7 @@ def state():
 
 
         slack_client.api_call("chat.postMessage", channel=channel_name, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
+        return "hi there"
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
@@ -99,7 +100,6 @@ def state():
         #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
         #                 ]
         #             })
-        return 'hi'
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
