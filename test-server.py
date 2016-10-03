@@ -68,8 +68,13 @@ def state():
         print "1 ", currentState['players']
 
         return {
-            "text": "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" %
-            (user_name, invited_player, invited_player)
+            "response_type": "in_channel",
+            "text": "%s wants to play tic-tac-toe with %s." % (user_name),
+            "attachments": [
+                    {
+                    "text": "%s, do you /accept or /decline?" % (invited_player, invited_player)
+                    }
+                ]
             }
 
     else:
