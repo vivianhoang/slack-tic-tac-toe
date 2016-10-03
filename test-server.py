@@ -25,8 +25,8 @@ import requests
 import os
 from slackclient import SlackClient
 
-TOKEN = os.environ['SLACK_TOKEN']
-slack_client = SlackClient(TOKEN)
+# TOKEN = os.environ['SLACK_TOKEN']
+slack_client = SlackClient(SLACK_TOKEN)
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
