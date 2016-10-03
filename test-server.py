@@ -73,7 +73,7 @@ def state():
                              {"text": "%s, do you /accept or /decline?" % (invited_player)}
                         ]})
 
-        return r
+        return
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
         #                       "attachments": [
