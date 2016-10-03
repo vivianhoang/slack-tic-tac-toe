@@ -24,7 +24,6 @@ from flask import Flask, request, redirect
 import requests
 import os
 from slackclient import SlackClient
-from slack_token import SLACK_TOKEN
 
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
 
