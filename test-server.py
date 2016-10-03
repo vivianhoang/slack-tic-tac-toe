@@ -99,6 +99,7 @@ def state():
         #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
         #                 ]
         #             })
+        return
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
