@@ -157,11 +157,11 @@ def move():
                 current_letter = currentState['players'][person_submitted]['letter']
                 print "no ", current_letter
                 entryPositionNames[position] = current_letter
-                usernames = currentState['players'].keys()
-                user_info = usernames.keys()
-                for key in usernames:
-                    for key2, val in user_info.items():
-                        if val != current_letter:
+                # usernames = currentState['players'].keys()
+                # user_info = usernames.keys()
+                for key in currentState['players'].keys():
+                    for key2, val in currentState['players'].items():
+                        if key2 == "letter" and val != current_letter:
                             currentState['current_player'] = key
                             print "wow %s" % (val)
                 # set current user to the next user
