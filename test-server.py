@@ -163,7 +163,7 @@ def move():
                     for key2, val in currentState['players'].items():
                         if key2 == "letter" and val != current_letter:
                             currentState['current_player'] = key
-                            print "wow %s" % (val)
+                            print "wow"
                 # set current user to the next user
                 return redirect('/board')
         else:
