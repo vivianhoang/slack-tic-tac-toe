@@ -69,10 +69,10 @@ def state():
 
         return {
             "response_type": "in_channel",
-            "text": "%s wants to play tic-tac-toe with %s." % (user_name),
+            "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
             "attachments": [
                     {
-                    "text": "%s, do you /accept or /decline?" % (invited_player, invited_player)
+                    "text": "%s, do you /accept or /decline?" % (invited_player)
                     }
                 ]
             }
