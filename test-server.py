@@ -21,6 +21,7 @@
 
 
 from flask import Flask, request, redirect
+import requests
 import os
 
 app = Flask(__name__)
@@ -67,12 +68,18 @@ def state():
 
         print "1 ", currentState['players']
 
-        return response.send({"response_type": "in_channel",
-                              "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
+        r = requests.post('https://hooks.slack.com/services/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', payload={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
                               "attachments": [
                              {"text": "%s, do you /accept or /decline?" % (invited_player)}
-                        ]
-                    })
+                        ]})
+
+        return r
+        # return response.send({"response_type": "in_channel",
+        #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
+        #                       "attachments": [
+        #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
+        #                 ]
+        #             })
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
