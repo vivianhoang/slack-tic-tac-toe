@@ -181,24 +181,30 @@ def end():
 @app.route('/board')
 def board():
     # need to check if game is in session
+    if currentState.get('in_progress', "") == True:
+        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
+        % (entryPositionNames['top-left'],
+           entryPositionNames['top-middle'],
+           entryPositionNames['top-right'],
+           entryPositionNames['middle-left'],
+           entryPositionNames['middle'],
+           entryPositionNames['middle-right'],
+           entryPositionNames['bottom-left'],
+           entryPositionNames['bottom-middle'],
+           entryPositionNames['bottom-right'],
+           currentState['current_player'])
 
-    message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
-    % (entryPositionNames['top-left'],
-       entryPositionNames['top-middle'],
-       entryPositionNames['top-right'],
-       entryPositionNames['middle-left'],
-       entryPositionNames['middle'],
-       entryPositionNames['middle-right'],
-       entryPositionNames['bottom-left'],
-       entryPositionNames['bottom-middle'],
-       entryPositionNames['bottom-right'],
-       currentState['current_player'])
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
 
-    return jsonify({
-        'response_type': 'in_channel',
-        'text': message
-        })
-
+    else:
+        message = "You do not have permission to do this at this time."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
     # return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
     # % (entryPositionNames['top-left'],
     #    entryPositionNames['top-middle'],
