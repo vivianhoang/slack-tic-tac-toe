@@ -23,6 +23,11 @@
 from flask import Flask, request, redirect
 import requests
 import os
+from slackclient import SlackClient
+
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN', None)
+
+slack_client = SlackClient(SLACK_TOKEN)
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
@@ -49,6 +54,15 @@ currentState = {
     "current_player": " ",
 }
 
+def send_message(channel_id, message):
+    slack_client.api_call(
+        "chat.postMessage",
+        channel=channel_id,
+        text=message,
+        username='tic-tac-toe',
+        icon_emoji=':robot_face'
+    )
+
 
 # need to make sure I validate keys or team ID
 
@@ -65,15 +79,18 @@ def state():
             "user_id": user_id,
             "letter": "X"
         }
+        channel_id = request.form.get('channel_id')
+        message = "%s wants to play tic-tac-toe with %s. %s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
 
         print "1 ", currentState['players']
 
-        r = requests.post('https://hooks.slack.com/services/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', json={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
-                              "attachments": [  
-                             {"text": "%s, do you /accept or /decline?" % (invited_player)}
-                        ]})
+        # r = requests.post('https://hooks.slack.com/services/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', json={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
+        #                       "attachments": [  
+        #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
+        #                 ]})
 
-        return
+
+        return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
         #                       "attachments": [
