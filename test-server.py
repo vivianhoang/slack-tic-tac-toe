@@ -264,6 +264,7 @@ def move():
             available_moves = []
             for key in entryPositionNames.keys():
                 available_moves.append(key)
+            
             message = "Please enter a valid move: %s." % (", ".join(available_moves))
             return jsonify({
                 'response_type': 'in_channel',
@@ -274,7 +275,7 @@ def move():
     else:
         message = "Select a box to make your move."
         return jsonify({
-            'response_type': 'in_channel'.
+            'response_type': 'in_channel',
             'text': message
             })
 
