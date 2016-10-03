@@ -68,8 +68,8 @@ def state():
 
         print "1 ", currentState['players']
 
-        r = requests.post('https://hooks.slack.com/services/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', payload={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
-                              "attachments": [
+        r = requests.post('https://hooks.slack.com/services/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', json={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
+                              "attachments": [  
                              {"text": "%s, do you /accept or /decline?" % (invited_player)}
                         ]})
 
