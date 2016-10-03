@@ -24,11 +24,10 @@ from flask import Flask, request, redirect, Response
 import requests
 import os
 from slackclient import SlackClient
+from slack_token import TOKEN
 
-SLACK_TOKEN = 'xoxp-85301562257-85290535280-86563138338-d0bcb322a92cb383e57654563a23e531'
 
-
-slack_client = SlackClient("xoxb-86559962368-YITiwGhNPdr6rK6hKbOqtNdM")
+slack_client = SlackClient(TOKEN)
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
@@ -92,7 +91,7 @@ def state():
 
 
         slack_client.api_call("chat.postMessage", channel=channel_name, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
-        return "hi there"
+        return
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
