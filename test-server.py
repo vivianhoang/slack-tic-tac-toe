@@ -28,7 +28,7 @@ from slackclient import SlackClient
 SLACK_TOKEN = 'xoxp-85301562257-85290535280-86563138338-d0bcb322a92cb383e57654563a23e531'
 
 
-slack_client = SlackClient("xoxb-86559962368-GaQ3Jcc6LDOZZ3tgPC1x2Eye")
+slack_client = SlackClient("xoxb-86559962368-wyC3bvNKGphqT5eh4M6ghSdL")
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
