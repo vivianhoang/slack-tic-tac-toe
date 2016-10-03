@@ -48,8 +48,8 @@ currentState = {
     "current_player": " ",
 }
 
-counter = 0
 
+# need to make sure I validate keys or team ID
 
 @app.route('/', methods=["POST"])
 def state():
@@ -67,15 +67,12 @@ def state():
 
         print "1 ", currentState['players']
 
-        return {
-            "response_type": "in_channel",
-            "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
-            "attachments": [
-                    {
-                    "text": "%s, do you /accept or /decline?" % (invited_player)
-                    }
-                ]
-            }
+        return response.send({"response_type": "in_channel",
+                              "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
+                              "attachments": [
+                             {"text": "%s, do you /accept or /decline?" % (invited_player)}
+                        ]
+                    })
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
