@@ -67,8 +67,10 @@ def state():
 
         print "1 ", currentState['players']
 
-        return "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" % \
+        return {
+            "text": "%s wants to play tic-tac-toe with %s. %s, do you /accept or /decline?" %
             (user_name, invited_player, invited_player)
+            }
 
     else:
         return "A game is already in session between %s and %s. To see the current game," \
@@ -163,7 +165,7 @@ def move():
                     for key2, val in currentState['players'].items():
                         if key2 == "letter" and val != current_letter:
                             currentState['current_player'] = key
-                            print "wow"
+                            print 'uh oh', currentState['current_player']
                 # set current user to the next user
                 return redirect('/board')
         else:
