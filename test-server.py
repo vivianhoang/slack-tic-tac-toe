@@ -80,7 +80,7 @@ def state():
             "letter": "X"
         }
         channel_id = request.form.get('channel_id')
-        message = "%s wants to play tic-tac-toe with %s. %s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
+        message = "@%s wants to play tic-tac-toe with %s. %s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
 
         print "1 ", currentState['players']
 
@@ -104,8 +104,14 @@ def state():
         #             })
 
     else:
-        return "A game is already in session between %s and %s. To see the current game," \
+        message =  "A game is already in session between %s and %s. To see the current game," \
             "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "A game is already in session between %s and %s. To see the current game," \
+        #     "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
 
 
 @app.route('/accept', methods=["POST"])
@@ -121,7 +127,13 @@ def accept_invite():
         "letter": "O"
     }
     if currentState.get("in_progress","") == True:
-        return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
+        message =  "A game is already in session between %s and %s. To see the current game," \
+            "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
 
     return redirect('/board')
 
@@ -131,9 +143,19 @@ def decline():
     declined = '@' + declined
 
     if currentState.get('invited_user_name', "") == declined and currentState.get("in_progress", "") == False:
-        return "%s has declined the game." % currentState['invited_user_name']
+        message =  "%s has declined the game." % currentState['invited_user_name']
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        #return "%s has declined the game." % currentState['invited_user_name']
     else:
-        return "You do have permission to do this at this time."
+        message = "You do not have permission to do this at this time."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        #return "You do have permission to do this at this time."
 
 
 @app.route('/end_game')
@@ -141,16 +163,26 @@ def end():
     # if user is creator or invited
     if currentState.get('in_progress', "") == True:
         currentState['in_progress'] = False
-        return "The game has ended."
+        message = "The game has ended."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "The game has ended."
     else:
-        return "You do not have permission to do this at this time."
+        message = "You do not have permission to do this at this time."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "You do not have permission to do this at this time."
 
 
 @app.route('/board')
 def board():
     # need to check if game is in session
 
-    return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
+    message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
     % (entryPositionNames['top-left'],
        entryPositionNames['top-middle'],
        entryPositionNames['top-right'],
@@ -161,6 +193,23 @@ def board():
        entryPositionNames['bottom-middle'],
        entryPositionNames['bottom-right'],
        currentState['current_player'])
+
+    return jsonify({
+        'response_type': 'in_channel',
+        'text': message
+        })
+
+    # return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
+    # % (entryPositionNames['top-left'],
+    #    entryPositionNames['top-middle'],
+    #    entryPositionNames['top-right'],
+    #    entryPositionNames['middle-left'],
+    #    entryPositionNames['middle'],
+    #    entryPositionNames['middle-right'],
+    #    entryPositionNames['bottom-left'],
+    #    entryPositionNames['bottom-middle'],
+    #    entryPositionNames['bottom-right'],
+    #    currentState['current_player'])
 
 
 @app.route('/move', methods=["POST"])
@@ -184,7 +233,12 @@ def move():
             # helper function to place X or O in correct position
             currentPositionEntry = entryPositionNames.get(position, "")
             if currentPositionEntry != " ":
-                return "This square is already taken. Please choose another."
+                message = "This square is already taken. Please choose another."
+                return jsonify({
+                    'response_type': 'in_channel',
+                    'text': message
+                    })
+                # return "This square is already taken. Please choose another."
             else:
                 print "yes ", current
                 current_letter = currentState['players'][person_submitted]['letter']
@@ -204,10 +258,19 @@ def move():
             available_moves = []
             for key in entryPositionNames.keys():
                 available_moves.append(key)
-            return "Please enter a valid move: %s." % (", ".join(available_moves))
+            message = "Please enter a valid move: %s." % (", ".join(available_moves))
+            return jsonify({
+                'response_type': 'in_channel',
+                'text': message
+                })
+            # return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
-        return
+        message = "Select a box to make your move."
+        return jsonify({
+            'response_type': 'in_channel'.
+            'text': message
+            })
 
 if __name__ == '__main__':
 
