@@ -20,7 +20,7 @@
 #     app.run(debug=True)
 
 
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, Response
 import requests
 import os
 from slackclient import SlackClient
@@ -32,6 +32,7 @@ slack_client = SlackClient(SLACK_TOKEN)
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
 
+slack_client.api_call("chat.postMessage", channel='announcements', text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
 entryPositionNames = {
     'top-left': " ",
@@ -72,6 +73,7 @@ def state():
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
         invited_player = request.form.get('text')
+        channel_name = request.form.get('channel_name')
         currentState['creator'] = '@' + user_name
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
@@ -90,7 +92,7 @@ def state():
         #                 ]})
 
 
-        slack_client.api_call("chat.postMessage", channel="#announcements", text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
+        slack_client.api_call("chat.postMessage", channel=channel_name, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
         return "hi there"
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
