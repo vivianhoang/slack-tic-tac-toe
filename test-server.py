@@ -90,7 +90,7 @@ def state():
 
 
         slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
-        return "It is cloudy"
+        return
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
