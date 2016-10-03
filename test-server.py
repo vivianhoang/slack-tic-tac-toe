@@ -27,12 +27,11 @@ from slackclient import SlackClient
 
 SLACK_TOKEN = 'xoxp-85301562257-85290535280-86563138338-d0bcb322a92cb383e57654563a23e531'
 
-slack_client = SlackClient(SLACK_TOKEN)
+
+slack_client = SlackClient("xoxb-86559962368-GaQ3Jcc6LDOZZ3tgPC1x2Eye")
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
-
-slack_client.api_call("chat.postMessage", channel='announcements', text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
 entryPositionNames = {
     'top-left': " ",
