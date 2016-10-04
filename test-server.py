@@ -160,7 +160,6 @@ def state():
 def accept_invite():
     user_id2 = request.form.get('user_id')
     user_name2 = str(request.form.get('user_name'))
-    user_name2 = '@' + user_name2
     currentState['current_player'] = user_name2
     print "hello", currentState.get('current_player', "")
     currentState['players'][user_name2] = {
@@ -168,6 +167,7 @@ def accept_invite():
         "user_id": user_id2,
         "letter": "O"
     }
+    user_name2 = '@' + user_name2
 
     if currentState.get("in_progress","") == True:
         message = "A game is already in session between %s and %s. To see the current game," \
