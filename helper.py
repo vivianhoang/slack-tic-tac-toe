@@ -1,3 +1,6 @@
+# change server file later
+from test-server import entryPositionNames
+
 def winner(entryPositionNames):
     """If there is a winner, the function will return true."""
 
