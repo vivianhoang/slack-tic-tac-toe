@@ -130,7 +130,7 @@ def state():
                 'text': "You cannot invite yourself to play! Try inviting someone else."
                 })
 
-        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (user_name, invited_user_name, invited_user_name)
+        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
 
         print "1 ", currentState['players']
 
