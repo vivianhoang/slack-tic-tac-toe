@@ -106,7 +106,7 @@ currentState = {
 #     )
 
 
-# need to make sure I validate keys or team ID
+# need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
 
 @app.route('/', methods=["POST"])
 def state():
@@ -313,6 +313,7 @@ def move():
                 # return "This square is already taken. Please choose another."
             else:
                 current_letter = currentState['players'][person_submitted]['letter']
+                print "NO NO ", current_letter
                 entryPositionNames[position] = current_letter
 
                 # checks if the move constitues a win
@@ -320,20 +321,14 @@ def move():
                     currentState['winner'] = True
                     return redirect('/board')
 
-                print currentState['creator'], currentState['invited_user_name'], currentState['current_player']
 
                 if currentState.get('current_player') == currentState['creator']:
                     currentState['current_player'] = currentState['invited_user_name']
                 else:
                     currentState['current_player'] = currentState['creator']
 
-                # for key in currentState['players'].keys():
-                #     for key2, val in currentState['players'].items():
-                #         # Switching out which letter is next when a move occurs
-                #         if key2 == "letter" and val != current_letter:
-                #             currentState['current_player'] = key
-                #             print 'uh oh', currentState['current_player']
-                # set current user to the next user
+                current_letter = currentState['players'][person_submitted]['letter']
+
                 return redirect('/board')
         else:
             #if wrong move, list out available move
@@ -360,6 +355,8 @@ def end():
     # if user is creator or invited
     if currentState.get('in_progress', "") == True:
         currentState['in_progress'] = False
+        for key in entryPositionNames.keys():
+            entryPositionNames[key] = "    "
         message = "The game has ended."
         return jsonify({
             'response_type': 'in_channel',
