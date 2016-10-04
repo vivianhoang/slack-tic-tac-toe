@@ -21,6 +21,7 @@
 
 
 from flask import Flask, request, redirect, Response, jsonify
+from helper import winner
 import requests
 import os
 from slackclient import SlackClient
@@ -51,6 +52,8 @@ currentState = {
     "accepted_invite": False,
     "players": {},
     "current_player": " ",
+    "winner": False,
+    "squares_available": True,
 }
 
 def send_message(channel_id, message):
@@ -186,7 +189,7 @@ def end():
 def board():
     print "in board route", currentState.get('in_progress', "")
     if currentState.get('in_progress', "") == True:
-        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
+        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n.```" \
         % (entryPositionNames['top-left'],
            entryPositionNames['top-middle'],
            entryPositionNames['top-right'],
@@ -198,10 +201,29 @@ def board():
            entryPositionNames['bottom-right'],
            currentState['current_player'])
 
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        # if there is a winner, end game
+        if currentState.get('winner', "") == True:
+            return jsonify({
+                'response_type': 'in_channel',
+                'text': (message + "%s wins!" % (currentState['current_player'])
+                })
+
+        # if board is full but no winners:
+        if currentState.get('winner', "") == False:
+            for value in entryPositionNames.values():
+                if value == " ":
+                    #if there are still spaces available, continue
+                    return jsonify ({
+                    'response_type': 'in_channel',
+                    'text': (message + "It is %s's turn !" % (currentState['current_player'])                
+                    })
+
+            # when the game ends in a draw:
+            currentState['in_progress'] = False
+            return jsonify ({
+                'response_type': 'in_channel',
+                'text': "It's a draw!"                
+                })
 
     else:
         message = "hey! You do not have permission to do this at this time."
@@ -250,14 +272,17 @@ def move():
                     })
                 # return "This square is already taken. Please choose another."
             else:
-                print "yes ", current
                 current_letter = currentState['players'][person_submitted]['letter']
-                print "no ", current_letter
                 entryPositionNames[position] = current_letter
-                # usernames = currentState['players'].keys()
-                # user_info = usernames.keys()
+
+                # checks if the move constitues a win
+                if winner(entryPositionNames):
+                    currentState['winner'] = True
+                    return redirect('/board')
+
                 for key in currentState['players'].keys():
                     for key2, val in currentState['players'].items():
+                        # Switching out which letter is next when a move occurs
                         if key2 == "letter" and val != current_letter:
                             currentState['current_player'] = key
                             print 'uh oh', currentState['current_player']
@@ -269,7 +294,7 @@ def move():
             for key in entryPositionNames.keys():
                 available_moves.append(key)
             
-            message = "Please enter a valid move: %s." % (", ".join(available_moves))
+            message = "Please enter a valid move: %s." % (", ".join(available_moves.sort()))
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
@@ -277,7 +302,7 @@ def move():
             # return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
-        message = "Select a box to make your move."
+        message = "Select a box to make a move."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
