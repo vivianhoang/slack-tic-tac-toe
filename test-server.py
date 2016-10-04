@@ -116,14 +116,14 @@ def state():
         invited_player = request.form.get('text')
         # channel_name = request.form.get('channel_name')
         currentState['creator'] = user_name
-        currentState['invited_user_name'] = invited_player
+        currentState['invited_user_name'] = invited_player[1:]
         currentState['players'][user_name] = {
             "user_name": user_name,
             "user_id": user_id,
             "letter": "X"
         }
         # channel_id = request.form.get('channel_id')
-        message = "@%s wants to play tic-tac-toe with %s. %s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
+        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
 
         print "1 ", currentState['players']
 
@@ -146,7 +146,7 @@ def state():
         #             })
 
     else:
-        message = "A game is already in session between %s and %s. To see the current game," \
+        message = "A game is already in session between @%s and @%s. To see the current game," \
             "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
         return jsonify({
             'response_type': 'in_channel',
@@ -170,7 +170,7 @@ def accept_invite():
     # user_name2 = '@' + user_name2
 
     if currentState.get("in_progress","") == True:
-        message = "A game is already in session between %s and %s. To see the current game," \
+        message = "A game is already in session between @%s and @%s. To see the current game," \
             "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
         return jsonify({
             'response_type': 'in_channel',
