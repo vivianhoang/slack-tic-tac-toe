@@ -314,8 +314,8 @@ def move():
                 # return "This square is already taken. Please choose another."
             else:
                 print "This prints the following current letters for creator and invited respectively:"
-                print currentState['players']['creator']['letter']
-                print currentState['players']['invited_user_name']['letter']
+                print currentState['players'][currentState['creator']]['letter']
+                print currentState['players'][currentState['invited_user_name']]['letter']
                 current_letter = currentState['players'][person_submitted]['letter']
                 print "NO NO ", current_letter
                 entryPositionNames[position] = current_letter
