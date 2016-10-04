@@ -292,7 +292,7 @@ def move():
     print "THIS IS THE %s" % person_submitted
     current = currentState.get('current_player', "")
 
-    if current == ('@' + person_submitted):
+    if current == person_submitted:
         position = 'hello'
         inputPosition = request.form.get('text')
         if inputPosition:
