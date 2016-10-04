@@ -205,26 +205,6 @@ def decline():
         #return "You do have permission to do this at this time."
 
 
-@app.route('/end_game')
-def end():
-    # if user is creator or invited
-    if currentState.get('in_progress', "") == True:
-        currentState['in_progress'] = False
-        message = "The game has ended."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
-        # return "The game has ended."
-    else:
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
-        # return "You do not have permission to do this at this time."
-
-
 @app.route('/board')
 def board():
     print "in board route", currentState.get('in_progress', "")
@@ -340,12 +320,17 @@ def move():
                     currentState['winner'] = True
                     return redirect('/board')
 
-                for key in currentState['players'].keys():
-                    for key2, val in currentState['players'].items():
-                        # Switching out which letter is next when a move occurs
-                        if key2 == "letter" and val != current_letter:
-                            currentState['current_player'] = key
-                            print 'uh oh', currentState['current_player']
+                if currentState.get('current_player') == currentState['creator']:
+                    currentState['current_player'] = currentState['invited_user_name']
+                else:
+                    currentState['current_player'] = currentState['creator']
+
+                # for key in currentState['players'].keys():
+                #     for key2, val in currentState['players'].items():
+                #         # Switching out which letter is next when a move occurs
+                #         if key2 == "letter" and val != current_letter:
+                #             currentState['current_player'] = key
+                #             print 'uh oh', currentState['current_player']
                 # set current user to the next user
                 return redirect('/board')
         else:
@@ -367,6 +352,25 @@ def move():
             'response_type': 'in_channel',
             'text': message
             })
+
+        @app.route('/end_game')
+        def end():
+            # if user is creator or invited
+            if currentState.get('in_progress', "") == True:
+                currentState['in_progress'] = False
+                message = "The game has ended."
+                return jsonify({
+                    'response_type': 'in_channel',
+                    'text': message
+                    })
+                # return "The game has ended."
+            else:
+                message = "You do not have permission to do this at this time."
+                return jsonify({
+                    'response_type': 'in_channel',
+                    'text': message
+                    })
+                # return "You do not have permission to do this at this time."
 
 if __name__ == '__main__':
 
