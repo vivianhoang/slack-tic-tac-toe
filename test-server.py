@@ -312,6 +312,7 @@ def move():
                     })
                 # return "This square is already taken. Please choose another."
             else:
+                print person_submitted
                 current_letter = currentState['players'][person_submitted]['letter']
                 print "NO NO ", current_letter
                 entryPositionNames[position] = current_letter
@@ -321,13 +322,12 @@ def move():
                     currentState['winner'] = True
                     return redirect('/board')
 
-
                 if currentState.get('current_player') == currentState['creator']:
                     currentState['current_player'] = currentState['invited_user_name']
                 else:
                     currentState['current_player'] = currentState['creator']
 
-                current_letter = currentState['players'][person_submitted]['letter']
+                # current_letter = currentState['players'][person_submitted]['letter']
 
                 return redirect('/board')
         else:
