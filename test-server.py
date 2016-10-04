@@ -167,7 +167,7 @@ def accept_invite():
         "user_id": user_id2,
         "letter": "O"
     }
-    user_name2 = '@' + user_name2
+    # user_name2 = '@' + user_name2
 
     if currentState.get("in_progress","") == True:
         message = "A game is already in session between %s and %s. To see the current game," \
