@@ -204,13 +204,13 @@ def board():
         if currentState.get('winner', "") == True:
             return jsonify({
                 'response_type': 'in_channel',
-                'text': ("%s wins!" % (currentState['current_player']),
+                'text': ("%s wins!" % (currentState['current_player'])),
                 'attachments': [
-                        {
-                            'text': message
-                        }
-                    ]
-                })
+                    {
+                        'text': message
+                    }
+                ]
+            })
 
         # if board is full but no winners:
         if currentState.get('winner', "") == False:
@@ -219,13 +219,13 @@ def board():
                     #if there are still spaces available, continue
                     return jsonify({
                         'response_type': 'in_channel',
-                        'text': ("It is %s's turn !" % (currentState['current_player']),
+                        'text': ("It is %s's turn !" % (currentState['current_player'])),
                         'attachments': [
-                                {
-                                    'text': message
-                                }
-                            ]
-                        })
+                            {
+                                'text': message
+                            }
+                        ]
+                    })
 
             # when the game ends in a draw:
             currentState['in_progress'] = False
@@ -233,11 +233,11 @@ def board():
                 'response_type': 'in_channel',
                 'text': "It's a draw!",
                 'attachments': [
-                        {
-                            'text': message
-                        }
-                    ]
-                })
+                    {
+                        'text': message
+                    }
+                ]
+            })
 
     else:
         message = "hey! You do not have permission to do this at this time."
