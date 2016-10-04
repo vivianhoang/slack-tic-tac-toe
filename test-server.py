@@ -289,7 +289,6 @@ def move():
     person_submitted = request.form.get('user_name')
     person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
-    print "WHOA THIS IS %s" % current
 
     if current == ('@' + person_submitted):
         position = 'hello'
@@ -320,6 +319,8 @@ def move():
                 if winner(entryPositionNames):
                     currentState['winner'] = True
                     return redirect('/board')
+
+                print currentState['creator'], currentState['invited_user_name'], currentState['current_player']
 
                 if currentState.get('current_player') == currentState['creator']:
                     currentState['current_player'] = currentState['invited_user_name']
