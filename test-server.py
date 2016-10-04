@@ -21,7 +21,7 @@
 
 
 from flask import Flask, request, redirect, Response, jsonify
-from helper import winner
+# from helper import winner
 import requests
 import os
 from slackclient import SlackClient
@@ -32,6 +32,46 @@ slack_client = SlackClient(TOKEN)
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
+
+def winner(entryPositionNames):
+    """If there is a winner, the function will return true."""
+
+    # top row
+    if ((entryPositionNames.get('top-left') != "    ") and
+        entryPositionNames.get('top-left') ==
+        entryPositionNames.get('top-middle') ==
+            entryPositionNames.get('top-right')):
+        return True
+
+    # middle row
+    if ((entryPositionNames.get('middle-left') != "    ") and
+        entryPositionNames.get('middle-left') ==
+        entryPositionNames.get('middle') ==
+            entryPositionNames.get('middle-right')):
+        return True
+
+    # bottom row
+    if ((entryPositionNames.get('bottom-left') != "    ") and
+        entryPositionNames.get('bottom-left') ==
+        entryPositionNames.get('bottom-middle') ==
+            entryPositionNames.get('bottom-right')):
+        return True
+
+    # diagonals
+    if ((entryPositionNames.get('top-left') != "    ") and
+        entryPositionNames.get('top-left') ==
+        entryPositionNames.get('middle') ==
+            entryPositionNames.get('bottom-right')):
+        return True
+
+    if ((entryPositionNames.get('top-right') != "    ") and
+        entryPositionNames.get('top-right') ==
+        entryPositionNames.get('middle') ==
+            entryPositionNames.get('bottom-left')):
+        return True
+
+    else:
+        return False
 
 entryPositionNames = {
     'top-left': "    ",
@@ -202,6 +242,7 @@ def board():
 
         # if there is a winner, end game
         if currentState.get('winner', "") == True:
+            currentState['in_progress'] = False
             return jsonify({
                 'response_type': 'in_channel',
                 'text': ("%s wins!" % (currentState['current_player'])),
