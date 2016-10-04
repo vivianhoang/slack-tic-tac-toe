@@ -245,7 +245,7 @@ def board():
             currentState['in_progress'] = False
             # refreshing moves once game is over
             for key in entryPositionNames.keys():
-                entryPositionNames[key] = 0
+                entryPositionNames[key] = "   "
             print "Spam", entryPositionNames.items()
             return jsonify({
                 'response_type': 'in_channel',
