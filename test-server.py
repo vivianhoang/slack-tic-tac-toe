@@ -244,6 +244,7 @@ def board():
         if currentState.get('winner', "") == True:
             currentState['in_progress'] = False
             dict.fromkeys(entryPositionNames, "    ")
+            print "Spam", entryPositionNames.items()
             return jsonify({
                 'response_type': 'in_channel',
                 'text': ("%s wins!" % (currentState['current_player'])),
