@@ -33,6 +33,29 @@ slack_client = SlackClient(TOKEN)
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
 
+entryPositionNames = {
+    'top-left': "    ",
+    'top-middle': "    ",
+    'top-right': "    ",
+    'middle-left': "    ",
+    'middle': "    ",
+    'middle-right': "    ",
+    'bottom-left': "    ",
+    'bottom-middle': "    ",
+    'bottom-right': "    ",
+}
+
+currentState = {
+    "in_progress": False,
+    "creator": " ",
+    "invited_user_name": " ",
+    "accepted_invite": False,
+    "players": {},
+    "current_player": " ",
+    "winner": False,
+    "squares_available": True,
+}
+
 def winner(entryPositionNames):
     """If there is a winner, the function will return true."""
 
@@ -72,29 +95,6 @@ def winner(entryPositionNames):
 
     else:
         return False
-
-entryPositionNames = {
-    'top-left': "    ",
-    'top-middle': "    ",
-    'top-right': "    ",
-    'middle-left': "    ",
-    'middle': "    ",
-    'middle-right': "    ",
-    'bottom-left': "    ",
-    'bottom-middle': "    ",
-    'bottom-right': "    ",
-}
-
-currentState = {
-    "in_progress": False,
-    "creator": " ",
-    "invited_user_name": " ",
-    "accepted_invite": False,
-    "players": {},
-    "current_player": " ",
-    "winner": False,
-    "squares_available": True,
-}
 
 # def send_message(channel_id, message):
 #     slack_client.api_call(
