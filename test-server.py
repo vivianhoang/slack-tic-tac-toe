@@ -57,6 +57,27 @@ def winner(entryPositionNames):
             entryPositionNames.get('bottom-right')):
         return True
 
+    # left
+    if ((entryPositionNames.get('top-left') != "    ") and
+        entryPositionNames.get('top-left') ==
+        entryPositionNames.get('middle-left') ==
+            entryPositionNames.get('bottom-left')):
+        return True
+
+    # middle
+    if ((entryPositionNames.get('top-middle') != "    ") and
+        entryPositionNames.get('top-middle') ==
+        entryPositionNames.get('middle') ==
+            entryPositionNames.get('bottom-middle')):
+        return True
+
+    # right
+    if ((entryPositionNames.get('top-right') != "    ") and
+        entryPositionNames.get('top-right') ==
+        entryPositionNames.get('middle-right') ==
+            entryPositionNames.get('bottom-right')):
+        return True
+
     # diagonals
     if ((entryPositionNames.get('top-left') != "    ") and
         entryPositionNames.get('top-left') ==
@@ -358,7 +379,7 @@ def move():
             # return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
-        message = "Select a box to make a move."
+        message = "Players make a move by entering /move [position]."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
