@@ -289,6 +289,7 @@ def move():
     person_submitted = request.form.get('user_name')
     person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
+    print "WHOA THIS IS %s" % current
 
     if current == ('@' + person_submitted):
         position = 'hello'
