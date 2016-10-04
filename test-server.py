@@ -198,8 +198,7 @@ def board():
                entryPositionNames['middle-right'],
                entryPositionNames['bottom-left'],
                entryPositionNames['bottom-middle'],
-               entryPositionNames['bottom-right'],
-               currentState['current_player'])
+               entryPositionNames['bottom-right'])
 
         # if there is a winner, end game
         if currentState.get('winner', "") == True:
