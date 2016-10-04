@@ -315,6 +315,8 @@ def move():
                 # return "This square is already taken. Please choose another."
             else:
                 print "oh gosh, ", currentState['players']
+                username = currentState['players'][person_submitted]
+                print "!", username
 
                 current_letter = currentState['players'][person_submitted]['letter']
                 print "NO NO ", current_letter
