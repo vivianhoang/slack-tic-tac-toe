@@ -204,7 +204,12 @@ def board():
         if currentState.get('winner', "") == True:
             return jsonify({
                 'response_type': 'in_channel',
-                'text': (message + "%s wins!" % (currentState['current_player']))
+                'text': ("%s wins!" % (currentState['current_player']),
+                'attachments': [
+                        {
+                            'text': message
+                        }
+                    ]
                 })
 
         # if board is full but no winners:
@@ -214,14 +219,24 @@ def board():
                     #if there are still spaces available, continue
                     return jsonify({
                         'response_type': 'in_channel',
-                        'text': (message + "It is %s's turn !" % (currentState['current_player']))
+                        'text': ("It is %s's turn !" % (currentState['current_player']),
+                        'attachments': [
+                                {
+                                    'text': message
+                                }
+                            ]
                         })
 
             # when the game ends in a draw:
             currentState['in_progress'] = False
             return jsonify({
                 'response_type': 'in_channel',
-                'text': "It's a draw!"
+                'text': "It's a draw!",
+                'attachments': [
+                        {
+                            'text': message
+                        }
+                    ]
                 })
 
     else:
