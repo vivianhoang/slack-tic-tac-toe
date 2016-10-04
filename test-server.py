@@ -113,9 +113,10 @@ def state():
     if currentState.get("in_progress","") == False:
         user_id = request.form.get('user_id')
         user_name = request.form.get('user_name')
+        user_name = '@' + user_name
         invited_player = request.form.get('text')
         # channel_name = request.form.get('channel_name')
-        currentState['creator'] = '@' + user_name
+        currentState['creator'] = user_name
         currentState['invited_user_name'] = invited_player
         currentState['players'][user_name] = {
             "user_name": user_name,
