@@ -244,7 +244,6 @@ def board():
         if currentState.get('winner', "") == True:
             currentState['in_progress'] = False
             # refreshing moves once game is over
-            entryPositionNames = {}
             for key in entryPositionNames.keys():
                 entryPositionNames[key] = 0
             print "Spam", entryPositionNames.items()
