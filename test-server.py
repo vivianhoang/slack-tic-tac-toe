@@ -34,15 +34,15 @@ app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
 
 entryPositionNames = {
-    'top-left': "   ",
-    'top-middle': "   ",
-    'top-right': "   ",
-    'middle-left': "   ",
-    'middle': "   ",
-    'middle-right': "   ",
-    'bottom-left': "   ",
-    'bottom-middle': "   ",
-    'bottom-right': "   ",
+    'top-left': "    ",
+    'top-middle': "    ",
+    'top-right': "    ",
+    'middle-left': "    ",
+    'middle': "    ",
+    'middle-right': "    ",
+    'bottom-left': "    ",
+    'bottom-middle': "    ",
+    'bottom-right': "    ",
 }
 
 currentState = {
@@ -189,7 +189,7 @@ def end():
 def board():
     print "in board route", currentState.get('in_progress', "")
     if currentState.get('in_progress', "") == True:
-        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
+        message = "| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n" \
             % (entryPositionNames['top-left'],
                entryPositionNames['top-middle'],
                entryPositionNames['top-right'],
@@ -215,7 +215,7 @@ def board():
         # if board is full but no winners:
         if currentState.get('winner', "") == False:
             for value in entryPositionNames.values():
-                if value == "   ":
+                if value == "    ":
                     #if there are still spaces available, continue
                     return jsonify({
                         'response_type': 'in_channel',
@@ -278,7 +278,7 @@ def move():
             # create helper function to see if someone one
             # helper function to place X or O in correct position
             currentPositionEntry = entryPositionNames.get(position, "")
-            if currentPositionEntry != "   ":
+            if currentPositionEntry != "    ":
                 message = "This square is already taken. Please choose another."
                 return jsonify({
                     'response_type': 'in_channel',

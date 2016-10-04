@@ -2,7 +2,7 @@ def winner(entryPositionNames):
     """If there is a winner, the function will return true."""
 
     # top row
-    if ((entryPositionNames.get('top-left') != "   ") and
+    if ((entryPositionNames.get('top-left') != "    ") and
         entryPositionNames.get('top-middle') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('top-right')):
@@ -10,7 +10,7 @@ def winner(entryPositionNames):
         return True
 
     # middle row
-    if ((entryPositionNames.get('middle-left') != "   ") and
+    if ((entryPositionNames.get('middle-left') != "    ") and
         entryPositionNames.get('middle') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('middle-right')):
@@ -18,7 +18,7 @@ def winner(entryPositionNames):
         return True
 
     # bottom row
-    if ((entryPositionNames.get('bottom-left') != "   ") and
+    if ((entryPositionNames.get('bottom-left') != "    ") and
         entryPositionNames.get('bottom-middle') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('bottom-right')):
@@ -26,14 +26,14 @@ def winner(entryPositionNames):
         return True
 
     # diagonals
-    if ((entryPositionNames.get('top-left') != "   ") and
+    if ((entryPositionNames.get('top-left') != "    ") and
         entryPositionNames.get('middle') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('bottom-right')):
         currentState['in_progress'] = False
         return True
 
-    if ((entryPositionNames.get('top-right') != "   ") and
+    if ((entryPositionNames.get('top-right') != "    ") and
         entryPositionNames.get('middle') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('bottom-left')):
