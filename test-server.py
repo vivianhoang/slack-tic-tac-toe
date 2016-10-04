@@ -287,7 +287,8 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     person_submitted = request.form.get('user_name')
-    person_submitted_id = request.form.get('user_id')
+    # person_submitted_id = request.form.get('user_id')
+    print "THIS IS THE %s" % person_submitted
     current = currentState.get('current_player', "")
 
     if current == ('@' + person_submitted):
@@ -312,7 +313,10 @@ def move():
                     })
                 # return "This square is already taken. Please choose another."
             else:
-                current_letter = currentState['players']['person_submitted']['letter']
+                print "This prints the following current letters for creator and invited respectively:"
+                print currentState['players']['creator']['letter']
+                print currentState['players']['invited_user_name']['letter']
+                current_letter = currentState['players'][person_submitted]['letter']
                 print "NO NO ", current_letter
                 entryPositionNames[position] = current_letter
 
