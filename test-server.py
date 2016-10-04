@@ -348,9 +348,9 @@ def move():
             for key in entryPositionNames.keys():
                 available_moves.append(key)
 
-            print "these are my available moves: ", available_moves
+            available_moves.sort()
 
-            message = "Please enter a valid move: %s." % (", ".join(available_moves)
+            message = "Please enter a valid move: %s." % (", ".join(available_moves))
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
