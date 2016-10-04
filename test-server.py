@@ -123,7 +123,14 @@ def state():
             "letter": "X"
         }
         # channel_id = request.form.get('channel_id')
-        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (user_name, invited_player, invited_player)
+
+        if currentState.get('creator') == currentState.get('invited_user_name'):
+            return jsonify({
+                'response_type': 'in_channel',
+                'text': "You cannot invite yourself to play! Try inviting someone else."
+                })
+
+        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (user_name, invited_user_name, invited_user_name)
 
         print "1 ", currentState['players']
 
