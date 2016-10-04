@@ -353,24 +353,24 @@ def move():
             'text': message
             })
 
-        @app.route('/end_game')
-        def end():
-            # if user is creator or invited
-            if currentState.get('in_progress', "") == True:
-                currentState['in_progress'] = False
-                message = "The game has ended."
-                return jsonify({
-                    'response_type': 'in_channel',
-                    'text': message
-                    })
-                # return "The game has ended."
-            else:
-                message = "You do not have permission to do this at this time."
-                return jsonify({
-                    'response_type': 'in_channel',
-                    'text': message
-                    })
-                # return "You do not have permission to do this at this time."
+@app.route('/end_game')
+def end():
+    # if user is creator or invited
+    if currentState.get('in_progress', "") == True:
+        currentState['in_progress'] = False
+        message = "The game has ended."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "The game has ended."
+    else:
+        message = "You do not have permission to do this at this time."
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
+        # return "You do not have permission to do this at this time."
 
 if __name__ == '__main__':
 
