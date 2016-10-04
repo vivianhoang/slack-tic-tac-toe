@@ -126,6 +126,7 @@ def accept_invite():
         "user_id": user_id2,
         "letter": "O"
     }
+
     if currentState.get("in_progress","") == True:
         message =  "A game is already in session between %s and %s. To see the current game," \
             "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
@@ -134,6 +135,9 @@ def accept_invite():
             'text': message
             })
         # return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
+
+    currentState["in_progress"] = True
+    print "I just switched current state to true."
 
     return redirect('/board')
 
@@ -180,7 +184,7 @@ def end():
 
 @app.route('/board')
 def board():
-    # need to check if game is in session
+    print "in board route", currentState.get('in_progress', "")
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
         % (entryPositionNames['top-left'],
@@ -200,7 +204,7 @@ def board():
             })
 
     else:
-        message = "You do not have permission to do this at this time."
+        message = "hey! You do not have permission to do this at this time."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
