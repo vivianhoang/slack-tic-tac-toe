@@ -289,8 +289,8 @@ def move():
     #MUST MAKE SURE THEY ACCEPT THE GAME FIRST
     person_submitted = str(request.form.get('user_name'))
     # person_submitted_id = request.form.get('user_id')
-    print "THIS IS THE %s" % person_submitted
     current = currentState.get('current_player', "")
+    print "THIS IS THE %s %s" % (person_submitted, current)
 
     if current == person_submitted:
         position = 'hello'
@@ -319,7 +319,7 @@ def move():
                 print "!", username
 
                 current_letter = currentState['players'][person_submitted]['letter']
-                print "NO NO ", current_letter
+                print current_letter
                 entryPositionNames[position] = current_letter
 
                 # checks if the move constitues a win
@@ -333,7 +333,7 @@ def move():
                     currentState['current_player'] = currentState['creator']
 
                 # current_letter = currentState['players'][person_submitted]['letter']
-
+                print "this is the new current player: %s" % currentState['current_player']
                 return redirect('/board')
         else:
             #if wrong move, list out available move
