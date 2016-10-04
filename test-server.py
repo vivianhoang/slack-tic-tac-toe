@@ -112,7 +112,7 @@ currentState = {
 def state():
     if currentState.get("in_progress","") == False:
         user_id = request.form.get('user_id')
-        user_name = request.form.get('user_name')
+        user_name = str(request.form.get('user_name'))
         invited_player = request.form.get('text')
         # channel_name = request.form.get('channel_name')
         currentState['creator'] = user_name
@@ -159,7 +159,7 @@ def state():
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     user_id2 = request.form.get('user_id')
-    user_name2 = request.form.get('user_name')
+    user_name2 = str(request.form.get('user_name'))
     user_name2 = '@' + user_name2
     currentState['current_player'] = user_name2
     print "hello", currentState.get('current_player', "")
