@@ -243,8 +243,11 @@ def board():
         # if there is a winner, end game
         if currentState.get('winner', "") == True:
             currentState['in_progress'] = False
-            dict.fromkeys(entryPositionNames, "    ")
-            print "Spam", entryPositionNames.keys()
+            # refreshing moves once game is over
+            entryPositionNames = {}
+            for key in entryPositionNames.keys():
+                entryPositionNames[key] = 0
+            print "Spam", entryPositionNames.items()
             return jsonify({
                 'response_type': 'in_channel',
                 'text': ("%s wins!" % (currentState['current_player'])),
