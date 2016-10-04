@@ -317,7 +317,7 @@ def move():
             else:
                 print "oh gosh, ", currentState['players']
                 username = currentState['players'][person_submitted]
-                print "!", username
+                print "!!", username
 
                 current_letter = currentState['players'][person_submitted]['letter']
                 print "NO NO ", current_letter
