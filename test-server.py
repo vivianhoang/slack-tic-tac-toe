@@ -244,7 +244,7 @@ def board():
         if currentState.get('winner', "") == True:
             # refreshing moves once game is over
             for key in entryPositionNames.keys():
-                entryPositionNames[key] = "   "
+                entryPositionNames[key] = "    "
 
             currentState['in_progress'] = False
             currentState['winner'] = False
