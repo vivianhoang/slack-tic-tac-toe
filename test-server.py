@@ -287,7 +287,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     #MUST MAKE SURE THEY ACCEPT THE GAME FIRST
-    person_submitted = request.form.get('user_name')
+    person_submitted = str(request.form.get('user_name'))
     # person_submitted_id = request.form.get('user_id')
     print "THIS IS THE %s" % person_submitted
     current = currentState.get('current_player', "")
