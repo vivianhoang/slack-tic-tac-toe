@@ -117,10 +117,7 @@ def state():
         }
 
         if currentState.get('creator') == currentState.get('invited_user_name'):
-            return jsonify({
-                'response_type': 'in_channel',
-                'text': "You cannot invite yourself to play! Try inviting someone else."
-                })
+            return "You cannot invite yourself to play. You can invite another team member to play."
 
         message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /accept or /decline?" % \
                   (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
@@ -131,12 +128,8 @@ def state():
             })
 
     else:
-        message = "A game is already in session between @%s and @%s. To see the current game," \
+        return "A game is already in session between @%s and @%s. To see the current game," \
                   "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
 
 
 @app.route('/accept', methods=["POST"])
@@ -157,24 +150,15 @@ def accept_invite():
         }
 
         if currentState.get("in_progress","") == True:
-            message = "A game is already in session between @%s and @%s. To see the current game," \
+            return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
-            return jsonify({
-                'response_type': 'in_channel',
-                'text': message
-                })
 
-        currentState["in_progress"] = True
-        print "hello there!"
+        currentState['in_progress'] = True
+        currentState['accepted_invite'] = True
         return redirect(url_for('board', channel_id=current_channel))
 
     else:
-        print "what on earth"
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        return "You do not have permission to do this at this time."
 
 
 @app.route('/decline', methods=["POST"])
@@ -183,25 +167,18 @@ def decline():
     if current_channel == currentState.get('channel_id'):
         declined = request.form.get('user_name')
 
-        if currentState.get('invited_user_name', "") == declined and currentState.get("in_progress", "") == False:
+        if currentState.get('invited_user_name') == declined and currentState.get("in_progress") == False:
             message = "@%s has declined the game." % currentState['invited_user_name']
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
                 })
         else:
-            message = "You do not have permission to do this at this time."
-            return jsonify({
-                'response_type': 'in_channel',
-                'text': message
-                })
+            return "You do not have permission to do this at this time."
+
 
     else:
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        return "You do not have permission to do this at this time."
 
 
 @app.route('/board')
@@ -261,20 +238,17 @@ def board():
                     })
 
     else:
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        return "You do not have permission to do this at this time."
+
 
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    print current_channel
+    print current_channel, currentState['channel_id'], currentState['accepted_invite']
     if (current_channel == currentState.get('channel_id')) and (currentState.get('accepted_invite') == True):
         #MUST MAKE SURE THEY ACCEPT THE GAME FIRST
         person_submitted = str(request.form.get('user_name'))
-        current = currentState.get('current_player', "")
+        current = currentState.get('current_player')
         # channel_id = request.form.get('channel_id')
 
         if current == person_submitted:
@@ -285,15 +259,10 @@ def move():
 
             # check if position is valid
             if position in entryPositionNames:
-                currentPositionEntry = entryPositionNames.get(position, "")
+                currentPositionEntry = entryPositionNames.get(position)
                 # square is taken
                 if currentPositionEntry != " ":
-                    message = "This square is already taken. Please choose another."
-
-                    return jsonify({
-                        'response_type': 'in_channel',
-                        'text': message
-                        })
+                    return "This square is already taken. Please choose another."
 
                 # successful move
                 else:
@@ -312,7 +281,7 @@ def move():
                     else:
                         currentState['current_player'] = currentState['creator']
 
-                    return redirect(url_for('board', channel_id=channel_id))
+                    return redirect(url_for('board', channel_id=current_channel))
 
             else:
                 #if wrong move, list out available move
@@ -322,25 +291,13 @@ def move():
 
                 available_moves.sort()
 
-                message = "Please enter a valid move: %s." % (", ".join(available_moves))
-                return jsonify({
-                    'response_type': 'in_channel',
-                    'text': message
-                    })
+                return "Please enter a valid move: %s." % (", ".join(available_moves))
 
         else:
-            message = "Players make a move by entering /move [position]."
-            return jsonify({
-                'response_type': 'in_channel',
-                'text': message
-                })
+            return "Players make a move by entering /move [position]."
 
     else:
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        return "You do not have permission to do this at this time."
 
 
 @app.route('/end_game')
@@ -348,7 +305,7 @@ def end():
     current_channel = request.form.get("channel_id")
     if current_channel == currentState.get('channel_id'):
         # if user is creator or invited
-        if currentState.get('in_progress', "") == True:
+        if currentState.get('in_progress') == True:
             currentState['in_progress'] = False
             for key in entryPositionNames.keys():
                 entryPositionNames[key] = " "
@@ -360,18 +317,10 @@ def end():
                 })
 
         else:
-            message = "You do not have permission to do this at this time."
-            return jsonify({
-                'response_type': 'in_channel',
-                'text': message
-                })
+            return "You do not have permission to do this at this time."
 
     else:
-        message = "You do not have permission to do this at this time."
-        return jsonify({
-            'response_type': 'in_channel',
-            'text': message
-            })
+        return "You do not have permission to do this at this time."
 
 if __name__ == '__main__':
 
