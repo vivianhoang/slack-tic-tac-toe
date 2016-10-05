@@ -1,10 +1,10 @@
-from server import entryPositionNames, channel
+from server import entryPositionNames, channels
 
 
-def restart_board(channel, channel_id):
+def restart_board(channels, channel_id):
     """Restarting the board when the game ends or stops."""
 
-    in_channel = channel['channel_id']
+    in_channel = channels['channel_id']
     in_channel['in_progress'] = False
     in_channel['winner'] = False
     in_channel['channel_id'] = " "
