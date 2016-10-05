@@ -208,7 +208,8 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.form.get("channel_id")
-    if current_channel == currentState.get('channel_id') and currentState.get('in_progress', "") == True:
+    print current_channel, currentState['channel_id'], currentState.get('in_progress')
+    if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
@@ -261,6 +262,7 @@ def board():
                     })
 
     else:
+        print "oh no"
         message = "You do not have permission to do this at this time."
         return jsonify({
             'response_type': 'in_channel',
