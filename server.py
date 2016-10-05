@@ -48,7 +48,6 @@ def state():
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
     if channels.get('channel_id', newState).get("in_progress") == False:
-        print channels
         channels[channel_id] = newState
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
@@ -66,6 +65,8 @@ def state():
             "user_id": user_id,
             "letter": "X"
         }
+
+        print channels
 
         response = slacker.users.list()
         r = response.body['members']
@@ -106,7 +107,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        if channels.get(channel_id, newState).get("in_progress") == True:
+        if channels.get(current_channel, newState).get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
