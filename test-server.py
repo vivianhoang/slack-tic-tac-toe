@@ -20,7 +20,7 @@
 #     app.run(debug=True)
 
 
-from flask import Flask, request, redirect, Response, jsonify
+from flask import Flask, request, redirect, Response, jsonify, url_for
 # from helper import winner
 import requests
 import os
@@ -187,7 +187,6 @@ def accept_invite():
     user_id2 = request.form.get('user_id')
     user_name2 = str(request.form.get('user_name'))
     currentState['current_player'] = user_name2
-    print "hello", currentState.get('current_player', "")
     currentState['players'][user_name2] = {
         "user_name": user_name2,
         "user_id": user_id2,
@@ -205,9 +204,9 @@ def accept_invite():
         # return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
 
     currentState["in_progress"] = True
-    print "I just switched current state to true."
+    channel_id = request.form.get('channel_id')
 
-    return redirect('/board')
+    return redirect(url_for('board', channel_id=channel_id))
 
 
 @app.route('/decline', methods=["POST"])
