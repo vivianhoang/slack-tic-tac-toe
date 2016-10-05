@@ -173,7 +173,7 @@ def board():
                    in_channel['bottom-right'])
 
             # channel_id = request.args.get('channel_id')
-            slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
+            slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
 
             in_channel = channels[current_channel]
             # if there is a winner, end game
