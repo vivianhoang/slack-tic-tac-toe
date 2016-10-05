@@ -44,14 +44,15 @@ currentState = {
 def state():
     channel_id = request.form.get('channel_id')
     # currentState['channel_id'] = channel_id
-    channels['channel_id'][channel_id] = {"in_progress": False,
-                                          "creator": " ",
-                                          "invited_user_name": " ",
-                                          "accepted_invite": False,
-                                          "players": {},
-                                          "current_player": " ",
-                                          "winner": False,
-                                          }
+    channels[channel_id] = {"in_progress": False,
+                            "creator": " ",
+                            "invited_user_name": " ",
+                            "accepted_invite": False,
+                            "players": {},
+                            "current_player": " ",
+                            "winner": False,
+                            }
+    print channels
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
     if channels.get("channel_id").get("in_progress") == False:
