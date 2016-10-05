@@ -221,7 +221,7 @@ def move():
     if (current_channel in channels.keys()) and (channels.get(current_channel, newState).get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
         in_channel = channels[current_channel]
-        current = in_channel.get(current_player)
+        current = in_channel.get('current_player')
 
         if current == person_submitted:
             position = " "
