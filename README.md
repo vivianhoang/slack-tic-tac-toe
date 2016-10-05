@@ -16,8 +16,8 @@ Slack commands:
 - ___/ttt-decline___ - Decline the game invitation.
 - ___/ttt-board___ - Show game board.
 - ___/ttt-move [position]___ - Place a letter on an empty square. Positions include'top-left', 'top-middle', 'top-right', 'middle-left', 'middle', 'middle-right','bottom-left', 'bottom-middle', 'bottom-right'.
-- ___/ttt-end___ - End Game.
-- ___/ttt-help___ - Displays the discription of each slash command availible for the game.
+- ___/ttt-end___ - End the game.
+- ___/ttt-help___ - Displays all descriptions of each slash command availible for the game.
 
 
 ### Technology Stack
