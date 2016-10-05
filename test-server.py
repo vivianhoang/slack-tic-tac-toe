@@ -37,55 +37,55 @@ def winner(entryPositionNames):
     """If there is a winner, the function will return true."""
 
     # top row
-    if ((entryPositionNames.get('top-left') != "    ") and
+    if ((entryPositionNames.get('top-left') != " ") and
         entryPositionNames.get('top-left') ==
         entryPositionNames.get('top-middle') ==
             entryPositionNames.get('top-right')):
         return True
 
     # middle row
-    if ((entryPositionNames.get('middle-left') != "    ") and
+    if ((entryPositionNames.get('middle-left') != " ") and
         entryPositionNames.get('middle-left') ==
         entryPositionNames.get('middle') ==
             entryPositionNames.get('middle-right')):
         return True
 
     # bottom row
-    if ((entryPositionNames.get('bottom-left') != "    ") and
+    if ((entryPositionNames.get('bottom-left') != " ") and
         entryPositionNames.get('bottom-left') ==
         entryPositionNames.get('bottom-middle') ==
             entryPositionNames.get('bottom-right')):
         return True
 
     # left
-    if ((entryPositionNames.get('top-left') != "    ") and
+    if ((entryPositionNames.get('top-left') != " ") and
         entryPositionNames.get('top-left') ==
         entryPositionNames.get('middle-left') ==
             entryPositionNames.get('bottom-left')):
         return True
 
     # middle
-    if ((entryPositionNames.get('top-middle') != "    ") and
+    if ((entryPositionNames.get('top-middle') != " ") and
         entryPositionNames.get('top-middle') ==
         entryPositionNames.get('middle') ==
             entryPositionNames.get('bottom-middle')):
         return True
 
     # right
-    if ((entryPositionNames.get('top-right') != "    ") and
+    if ((entryPositionNames.get('top-right') != " ") and
         entryPositionNames.get('top-right') ==
         entryPositionNames.get('middle-right') ==
             entryPositionNames.get('bottom-right')):
         return True
 
     # diagonals
-    if ((entryPositionNames.get('top-left') != "    ") and
+    if ((entryPositionNames.get('top-left') != " ") and
         entryPositionNames.get('top-left') ==
         entryPositionNames.get('middle') ==
             entryPositionNames.get('bottom-right')):
         return True
 
-    if ((entryPositionNames.get('top-right') != "    ") and
+    if ((entryPositionNames.get('top-right') != " ") and
         entryPositionNames.get('top-right') ==
         entryPositionNames.get('middle') ==
             entryPositionNames.get('bottom-left')):
@@ -95,15 +95,15 @@ def winner(entryPositionNames):
         return False
 
 entryPositionNames = {
-    'top-left': "    ",
-    'top-middle': "    ",
-    'top-right': "    ",
-    'middle-left': "    ",
-    'middle': "    ",
-    'middle-right': "    ",
-    'bottom-left': "    ",
-    'bottom-middle': "    ",
-    'bottom-right': "    ",
+    'top-left': " ",
+    'top-middle': " ",
+    'top-right': " ",
+    'middle-left': " ",
+    'middle': " ",
+    'middle-right': " ",
+    'bottom-left': " ",
+    'bottom-middle': " ",
+    'bottom-right': " ",
 }
 
 currentState = {
@@ -160,18 +160,7 @@ def state():
         #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
         #                 ]})
 
-        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
-            % (entryPositionNames['top-left'],
-               entryPositionNames['top-middle'],
-               entryPositionNames['top-right'],
-               entryPositionNames['middle-left'],
-               entryPositionNames['middle'],
-               entryPositionNames['middle-right'],
-               entryPositionNames['bottom-left'],
-               entryPositionNames['bottom-middle'],
-               entryPositionNames['bottom-right'])
-
-        slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
+        slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
         return jsonify({
             'response_type': 'in_channel',
@@ -243,7 +232,7 @@ def decline():
 
 @app.route('/board')
 def board():
-    print "in board route", currentState.get('in_progress', "")
+    global slack_client
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
             % (entryPositionNames['top-left'],
@@ -260,7 +249,7 @@ def board():
         if currentState.get('winner', "") == True:
             # refreshing moves once game is over
             for key in entryPositionNames.keys():
-                entryPositionNames[key] = "    "
+                entryPositionNames[key] = " "
 
             currentState['in_progress'] = False
             currentState['winner'] = False
@@ -275,7 +264,7 @@ def board():
         # if board is full but no winners:
         if currentState.get('winner', "") == False:
             for value in entryPositionNames.values():
-                if value == "    ":
+                if value == " ":
                     #if there are still spaces available, continue
                     channel_id = request.form.get('channel_id')
                     slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
@@ -334,7 +323,7 @@ def move():
             # create helper function to see if someone one
             # helper function to place X or O in correct position
             currentPositionEntry = entryPositionNames.get(position, "")
-            if currentPositionEntry != "    ":
+            if currentPositionEntry != " ":
                 message = "This square is already taken. Please choose another."
                 return jsonify({
                     'response_type': 'in_channel',
@@ -391,7 +380,7 @@ def end():
     if currentState.get('in_progress', "") == True:
         currentState['in_progress'] = False
         for key in entryPositionNames.keys():
-            entryPositionNames[key] = "    "
+            entryPositionNames[key] = " "
         message = "The game has ended."
         return jsonify({
             'response_type': 'in_channel',
