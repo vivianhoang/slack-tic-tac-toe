@@ -1,27 +1,4 @@
-# from flask import Flask, requests
-# from flask_restful import Resource, Api
-
-# app = Flask(__name__)
-# api = Api(app)
-
-# todos = {}
-
-# class TodoSimple(Resource):
-#     def get(self, todo_id):
-#         return {todo_id: todos[todo_id]}
-
-#     def put(self, todo_id):
-#         todos[todo_id] = request.form['data']
-#         return {todo_id: todos[todo_id]}
-
-# api.add_resource(TodoSimple, '/<string:todo_id>')
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-
 from flask import Flask, request, redirect, Response, jsonify, url_for
-# from helper import winner
 import requests
 import os
 from slackclient import SlackClient
@@ -117,25 +94,15 @@ currentState = {
     "squares_available": True,
 }
 
-# def send_message(channel_id, message):
-#     slack_client.api_call(
-#         "chat.postMessage",
-#         channel=channel_id,
-#         text=message,
-#         username='tic-tac-toe',
-#         icon_emoji=':robot_face'
-#     )
-
-
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
+
 
 @app.route('/', methods=["POST"])
 def state():
-    if currentState.get("in_progress","") == False:
+    if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
         user_name = str(request.form.get('user_name'))
         invited_player = request.form.get('text')
-        # channel_name = request.form.get('channel_name')
         currentState['creator'] = user_name
         currentState['invited_user_name'] = invited_player[1:]
         currentState['players'][user_name] = {
@@ -151,32 +118,18 @@ def state():
                 'text': "You cannot invite yourself to play! Try inviting someone else."
                 })
 
-        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /accept or /decline?" % (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
-
-        print "1 ", currentState['players']
-
-        # r = requests.post('https://hooks.slack.com/services/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', json={"text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
-        #                       "attachments": [
-        #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
-        #                 ]})
-
+        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /accept or /decline?" % \
+                  (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
         slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
         return jsonify({
             'response_type': 'in_channel',
             'text': message
             })
-        # return send_message(channel_id, message)
-        # return response.send({"response_type": "in_channel",
-        #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
-        #                       "attachments": [
-        #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
-        #                 ]
-        #             })
 
     else:
         message = "A game is already in session between @%s and @%s. To see the current game," \
-            "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
+                  "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
         return jsonify({
             'response_type': 'in_channel',
             'text': message
@@ -192,7 +145,6 @@ def accept_invite():
         "user_id": user_id2,
         "letter": "O"
     }
-    # user_name2 = '@' + user_name2
 
     if currentState.get("in_progress","") == True:
         message = "A game is already in session between @%s and @%s. To see the current game," \
@@ -201,7 +153,6 @@ def accept_invite():
             'response_type': 'in_channel',
             'text': message
             })
-        # return "There is already a game in progress between %s and %s." % (user_name2, currentState['creator'])
 
     currentState["in_progress"] = True
     channel_id = request.form.get('channel_id')
@@ -219,20 +170,17 @@ def decline():
             'response_type': 'in_channel',
             'text': message
             })
-        #return "%s has declined the game." % currentState['invited_user_name']
     else:
         message = "You do not have permission to do this at this time."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
             })
-        #return "You do have permission to do this at this time."
 
 
 @app.route('/board')
 def board():
-    # global slack_client
-
+    """ """
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
             % (entryPositionNames['top-left'],
@@ -288,60 +236,40 @@ def board():
             'response_type': 'in_channel',
             'text': message
             })
-    # return "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\nIt is %s's turn.```" \
-    # % (entryPositionNames['top-left'],
-    #    entryPositionNames['top-middle'],
-    #    entryPositionNames['top-right'],
-    #    entryPositionNames['middle-left'],
-    #    entryPositionNames['middle'],
-    #    entryPositionNames['middle-right'],
-    #    entryPositionNames['bottom-left'],
-    #    entryPositionNames['bottom-middle'],
-    #    entryPositionNames['bottom-right'],
-    #    currentState['current_player'])
-
 
 @app.route('/move', methods=["POST"])
 def move():
     #MUST MAKE SURE THEY ACCEPT THE GAME FIRST
     person_submitted = str(request.form.get('user_name'))
-    # person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
-    print "THIS IS THE %s %s" % (person_submitted, current)
     channel_id = request.form.get('channel_id')
 
     if current == person_submitted:
-        position = 'hello'
+        position = " "
         inputPosition = request.form.get('text')
         if inputPosition:
             position = inputPosition
+
         # check if position is valid and it doesnt have a value
         if position in entryPositionNames:
-            # global counter
-            # counter += 1
-            # must include board view/change
-            # return "Valid Move, %s, %s" % (counter, person_submitted)
-            # create helper function to see if someone one
-            # helper function to place X or O in correct position
             currentPositionEntry = entryPositionNames.get(position, "")
             if currentPositionEntry != " ":
                 message = "This square is already taken. Please choose another."
+
                 return jsonify({
                     'response_type': 'in_channel',
                     'text': message
                     })
-                # return "This square is already taken. Please choose another."
-            else:
-                username = currentState['players'][person_submitted]['user_name']
-                print "!", username
 
+            else:
+                #### username = currentState['players'][person_submitted]['user_name']
                 current_letter = currentState['players'][person_submitted]['letter']
-                print current_letter
                 entryPositionNames[position] = current_letter
 
                 # checks if the move constitues a win
                 if winner(entryPositionNames):
                     currentState['winner'] = True
+
                     return redirect(url_for('board', channel_id=channel_id))
 
                 if currentState.get('current_player') == currentState['creator']:
@@ -349,9 +277,8 @@ def move():
                 else:
                     currentState['current_player'] = currentState['creator']
 
-                # current_letter = currentState['players'][person_submitted]['letter']
-                print "this is the new current player: %s" % currentState['current_player']
                 return redirect(url_for('board', channel_id=channel_id))
+
         else:
             #if wrong move, list out available move
             available_moves = []
@@ -365,7 +292,6 @@ def move():
                 'response_type': 'in_channel',
                 'text': message
                 })
-            # return "Please enter a valid move: %s." % (", ".join(available_moves))
 
     else:
         message = "Players make a move by entering /move [position]."
@@ -374,6 +300,7 @@ def move():
             'text': message
             })
 
+
 @app.route('/end_game')
 def end():
     # if user is creator or invited
@@ -381,19 +308,19 @@ def end():
         currentState['in_progress'] = False
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
+
         message = "The game has ended."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
             })
-        # return "The game has ended."
+
     else:
         message = "You do not have permission to do this at this time."
         return jsonify({
             'response_type': 'in_channel',
             'text': message
             })
-        # return "You do not have permission to do this at this time."
 
 if __name__ == '__main__':
 
