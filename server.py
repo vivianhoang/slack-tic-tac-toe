@@ -26,16 +26,16 @@ entryPositionNames = {
     'bottom-right': " ",
 }
 
-currentState = {
-    "in_progress": False,
-    "creator": " ",
-    "invited_user_name": " ",
-    "accepted_invite": False,
-    "players": {},
-    "current_player": " ",
-    "winner": False,
-    "channel_id": "",
-}
+# currentState = {
+#     "in_progress": False,
+#     "creator": " ",
+#     "invited_user_name": " ",
+#     "accepted_invite": False,
+#     "players": {},
+#     "current_player": " ",
+#     "winner": False,
+#     "channel_id": "",
+# }
 
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
 
@@ -44,18 +44,20 @@ currentState = {
 def state():
     channel_id = request.form.get('channel_id')
     # currentState['channel_id'] = channel_id
-    channels[channel_id] = {"in_progress": False,
-                            "creator": " ",
-                            "invited_user_name": " ",
-                            "accepted_invite": False,
-                            "players": {},
-                            "current_player": " ",
-                            "winner": False,
-                            }
+    current_states = {"in_progress": False,
+                      "creator": " ",
+                      "invited_user_name": " ",
+                      "accepted_invite": False,
+                      "players": {},
+                      "current_player": " ",
+                      "winner": False,
+                      }
+
+    channels[channel_id] = current_states
     print channels
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get("channel_id").get("in_progress") == False:
+    if channels.get("channel_id", current_states).get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
