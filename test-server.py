@@ -303,7 +303,7 @@ def move():
         return "You do not have permission to do this at this time."
 
 
-@app.route('/end_game')
+@app.route('/end_game', methods=["POST"])
 def end():
     current_channel = request.form.get("channel_id")
     print "in /end game route", current_channel, currentState['channel_id']
