@@ -1,6 +1,19 @@
 from server import entryPositionNames, channels
 
 
+def new_state(channels, channel_id):
+    channels[channel_id] = {
+        "in_progress": False,
+        "creator": " ",
+        "invited_user_name": " ",
+        "accepted_invite": False,
+        "players": {},
+        "current_player": " ",
+        "winner": False,
+        "channel_id": "",
+    }
+
+
 def restart_board(channels, channel_id):
     """Restarting the board when the game ends or stops."""
 
