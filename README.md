@@ -4,7 +4,7 @@
 
 This is a slash command integration of tic-tac-toe that is playable for users within a Slack Team. There can be multiple games being played simultaneously within a team, but there can only be one game being played per channel. A player can only invite a perosn who exists within the team and cannot initiate a game by inviting themselves. If a player makes an invalid move or submits ___/ttt-help___, a Slack bot will display more information that is only visible to that user. Every other command is visible. 
 
-Currently, the tic-tac-toe board displays normally on mobile and desktop, but not within mobile notifications.API tokens are currently stored in Heroku and the server automatically deploys when it is pushed to GitHub.
+Currently, the tic-tac-toe board displays normally on mobile and desktop, but not within mobile notifications. API tokens are currently stored in Heroku and the server automatically deploys when it is pushed to GitHub.
 
 
 ## Commands
