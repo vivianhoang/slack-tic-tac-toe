@@ -53,7 +53,7 @@ def state():
     print "hey my channels now", channels
     print channel_id
 
-    print " AGAIN Checking progress before it executes", current_channel, channels.get(current_channel, "").get("in_progress")
+    print " AGAIN Checking progress before it executes", current_channel, channels.get(channel_id, "").get("in_progress")
     if channels.get(channel_id, "").get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
