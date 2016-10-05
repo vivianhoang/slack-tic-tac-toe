@@ -22,7 +22,7 @@ Slack commands:
 
 ### Technology Stack
 
-**Application:** Python, Flask, Jinja, PostgreSQL
+**Application:** Python, Flask, Jinja2
 
 **APIs:** Slack: Slack Bots, Slash Commands
 
