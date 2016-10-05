@@ -180,9 +180,6 @@ def state():
             'response_type': 'in_channel',
             'text': message
             })
-        # return "A game is already in session between %s and %s. To see the current game," \
-        #     "enter '/board'" % (currentState['creator'], currentState['invited_user_name'])
-
 
 @app.route('/accept', methods=["POST"])
 def accept_invite():
