@@ -11,6 +11,8 @@ slack_client = SlackClient(TOKEN)
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
 
+channels = {}
+
 entryPositionNames = {
     'top-left': " ",
     'top-middle': " ",
@@ -235,8 +237,9 @@ def move():
         return "You do not have permission to do this at this time."
 
 
-@app.route('/help')
+@app.route('/more_help')
 def help():
+    """ """
     return ("/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n"
             "/ttt-accept -- Accept the game invitation.\n"
             "/ttt-decline -- Decline the game invitation.\n"
@@ -249,6 +252,7 @@ def help():
 
 @app.route('/end_game', methods=["POST"])
 def end():
+    """ """
     current_channel = request.form.get("channel_id")
     if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
         for key in entryPositionNames.keys():
