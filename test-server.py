@@ -231,6 +231,9 @@ def board():
 
                 # when the game ends in a draw:
                 currentState['in_progress'] = False
+                currentState['channel_id'] = " "
+                currentState['players'] = {}
+                currentState['accepted_invite'] = False
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -303,12 +306,18 @@ def move():
 @app.route('/end_game')
 def end():
     current_channel = request.form.get("channel_id")
+    print "in /end game route", current_channel, currentState('channel_id')
     if current_channel == currentState.get('channel_id'):
         # if user is creator or invited
         if currentState.get('in_progress') == True:
             currentState['in_progress'] = False
             for key in entryPositionNames.keys():
                 entryPositionNames[key] = " "
+
+            currentState['in_progress'] = False
+            currentState['channel_id'] = " "
+            currentState['players'] = {}
+            currentState['accepted_invite'] = False
 
             message = "The game has ended."
             return jsonify({
