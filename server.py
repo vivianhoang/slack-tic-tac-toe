@@ -125,7 +125,7 @@ def accept_invite():
         in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
-        slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
+        slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
 
         return redirect(url_for('board', channel_id=current_channel))
 
