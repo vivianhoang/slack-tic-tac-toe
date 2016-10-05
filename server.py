@@ -72,12 +72,11 @@ def state():
                 if key == "name":
                     existing_users.append(value)
 
-        ######
-        print existing_users
-
+        # inviting yourself
         if currentState.get('creator') == currentState.get('invited_user_name'):
             return "You cannot invite yourself to play."
 
+        # inviting someone non-existent in team
         if currentState.get('invited_user_name') not in existing_users:
             return "That username does not exists."
 
