@@ -99,7 +99,7 @@ currentState = {
 
 @app.route('/', methods=["POST"])
 def state():
-    channel_id = request.form.get('channel_id')   
+    channel_id = request.form.get('channel_id')
 
     if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
@@ -176,7 +176,7 @@ def accept_invite():
 @app.route('/decline', methods=["POST"])
 def decline():
     current_channel = request.form.get("channel_id")
-    if current_channel == currentState['channel_id']
+    if current_channel == currentState.get('channel_id'):
         declined = request.form.get('user_name')
 
         if currentState.get('invited_user_name', "") == declined and currentState.get("in_progress", "") == False:
@@ -265,7 +265,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    if (current_channel == currentState.get('channel_id') and (currentState.get('accepted_invite') == True):
+    if (current_channel == currentState.get('channel_id')) and (currentState.get('accepted_invite') == True):
         #MUST MAKE SURE THEY ACCEPT THE GAME FIRST
         person_submitted = str(request.form.get('user_name'))
         current = currentState.get('current_player', "")
@@ -334,7 +334,7 @@ def move():
 @app.route('/end_game')
 def end():
     current_channel = request.form.get("channel_id")
-    if current_channel = currentState['channel_id']:
+    if current_channel == currentState.get('channel_id'):
         # if user is creator or invited
         if currentState.get('in_progress', "") == True:
             currentState['in_progress'] = False
