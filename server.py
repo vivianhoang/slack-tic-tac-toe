@@ -48,6 +48,7 @@ def state():
 
     if channels.get('channel_id', newState) not in channels.keys():
         channels[channel_id] = newState
+        print newState
 
     print "hey", channels
     print channel_id
