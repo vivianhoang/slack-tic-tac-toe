@@ -26,16 +26,16 @@ entryPositionNames = {
     'bottom-right': " ",
 }
 
-# currentState = {
-#     "in_progress": False,
-#     "creator": " ",
-#     "invited_user_name": " ",
-#     "accepted_invite": False,
-#     "players": {},
-#     "current_player": " ",
-#     "winner": False,
-#     "channel_id": "",
-# }
+currentState = {
+    "in_progress": False,
+    "creator": " ",
+    "invited_user_name": " ",
+    "accepted_invite": False,
+    "players": {},
+    "current_player": " ",
+    "winner": False,
+    "channel_id": "",
+}
 
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
 
@@ -53,11 +53,10 @@ def state():
                       "winner": False,
                       }
 
-    channels[channel_id] = current_states
     print channels
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get("channel_id", current_states).get("in_progress") == False:
+    if channels.get("channel_id", currentStates).get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
@@ -85,7 +84,7 @@ def state():
                     existing_users.append(value)
 
         # inviting yourself
-        if channels.get("channel_id").get("creator") == in_channel.get('invited_user_name'):
+        if channels.get("channel_id").get("creator") == channels.get("channel_id").get('invited_user_name'):
             return "You cannot invite yourself to play."
 
         # inviting someone non-existent in team
@@ -112,7 +111,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels['current_channel']
-        if channels.get("channel_id").get("in_progress") == True:
+        if channels.get("channel_id", currentState).get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
@@ -159,7 +158,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    if current_channel in channels.keys() and channels.get('current_channel').get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel', currentStates).get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
@@ -215,7 +214,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    if (current_channel in channels.keys()) and (channels.get('current_channel').get('accepted_invite') == True):
+    if (current_channel in channels.keys()) and (channels.get('current_channel', currentStates).get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
         in_channel = channels['current_channel']
         current = in_channel.get('current_player')
@@ -291,7 +290,7 @@ def help():
 def end():
     """ """
     current_channel = request.form.get("channel_id")
-    if current_channel in channels.keys() and channels.get('current_channel').get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel', currentStates).get('in_progress') == True:
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
