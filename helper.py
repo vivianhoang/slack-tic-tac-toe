@@ -12,7 +12,15 @@ def new_state(channels, channel_id):
         "players": {},
         "current_player": " ",
         "winner": False,
-        "channel_id": "",
+        'top-left': " ",
+        'top-middle': " ",
+        'top-right': " ",
+        'middle-left': " ",
+        'middle': " ",
+        'middle-right': " ",
+        'bottom-left': " ",
+        'bottom-middle': " ",
+        'bottom-right': " ",
     }
 
 
@@ -25,6 +33,15 @@ def restart_board(channels, channel_id):
     in_channel['channel_id'] = " "
     in_channel['players'] = {}
     in_channel['accepted_invite'] = False
+    in_channel['top-left'] = " "
+    in_channel['top-middle'] = " "
+    in_channel['top-right'] = " "
+    in_channel['middle-left'] = " "
+    in_channel['middle'] = " "
+    in_channel['middle-right'] = " "
+    in_channel['bottom-left'] = " "
+    in_channel['bottom-middle'] = " "
+    in_channel['bottom-right'] = " "
 
 
 def winner(entryPositionNames):

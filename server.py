@@ -91,7 +91,6 @@ def state():
             })
 
     else:
-        # channels[channel_id] = newState
         print channels
         return "A game is already in session between @%s and @%s. To see the current game," \
                "enter '/ttt-board'" % (channels[channel_id]['creator'], channels[channel_id]['invited_user_name'])
@@ -160,16 +159,18 @@ def decline():
 def board():
     current_channel = request.args.get("channel_id")
     if current_channel in channels.keys() and channels.get(current_channel, " ").get('in_progress') == True:
+            in_channel = channels[current_channel]
+
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
-                % (entryPositionNames['top-left'],
-                   entryPositionNames['top-middle'],
-                   entryPositionNames['top-right'],
-                   entryPositionNames['middle-left'],
-                   entryPositionNames['middle'],
-                   entryPositionNames['middle-right'],
-                   entryPositionNames['bottom-left'],
-                   entryPositionNames['bottom-middle'],
-                   entryPositionNames['bottom-right'])
+                % (in_channel['top-left'],
+                   in_channel['top-middle'],
+                   in_channel['top-right'],
+                   in_channel['middle-left'],
+                   in_channel['middle'],
+                   in_channel['middle-right'],
+                   in_channel['bottom-left'],
+                   in_channel['bottom-middle'],
+                   in_channel['bottom-right'])
 
             # channel_id = request.args.get('channel_id')
             slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
@@ -177,9 +178,7 @@ def board():
             in_channel = channels[current_channel]
             # if there is a winner, end game
             if channels.get(current_channel, " ").get('winner') == True:
-                # refreshing necessary newState keys
-                for key in entryPositionNames.keys():
-                    entryPositionNames[key] = " "
+                # refreshing all necessary dict keys
 
                 helper.restart_board(channels, current_channel)
 
