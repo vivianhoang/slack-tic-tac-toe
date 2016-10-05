@@ -240,6 +240,7 @@ def move():
 @app.route('/more_help')
 def help():
     """ """
+    print "I am groot"
     return ("/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n"
             "/ttt-accept -- Accept the game invitation.\n"
             "/ttt-decline -- Decline the game invitation.\n"
