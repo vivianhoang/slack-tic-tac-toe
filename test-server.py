@@ -236,7 +236,7 @@ def decline():
 def board():
     print "in board route", currentState.get('in_progress', "")
     if currentState.get('in_progress', "") == True:
-        message = "| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n" \
+        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n"``` \
             % (entryPositionNames['top-left'],
                entryPositionNames['top-middle'],
                entryPositionNames['top-right'],
@@ -255,42 +255,32 @@ def board():
 
             currentState['in_progress'] = False
             currentState['winner'] = False
+            slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
+            
             return jsonify({
                 'response_type': 'in_channel',
-                'text': ("%s wins!" % (currentState['current_player'])),
-                'attachments': [
-                    {
-                        'text': message
-                    }
-                ]
-            })
+                'text': ("Game over. @%s wins!" % (currentState['current_player']))
+                })
 
         # if board is full but no winners:
         if currentState.get('winner', "") == False:
             for value in entryPositionNames.values():
                 if value == "    ":
                     #if there are still spaces available, continue
+                    slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
                     return jsonify({
                         'response_type': 'in_channel',
-                        'text': ("It is %s's turn !" % (currentState['current_player'])),
-                        'attachments': [
-                            {
-                                'text': message
-                            }
-                        ]
-                    })
+                        'text': ("It is @%s's turn !" % (currentState['current_player']))
+                        })
 
             # when the game ends in a draw:
             currentState['in_progress'] = False
+            slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
+
             return jsonify({
                 'response_type': 'in_channel',
-                'text': "It's a draw!",
-                'attachments': [
-                    {
-                        'text': message
-                    }
-                ]
-            })
+                'text': "Game over. It's a draw!"
+                })
 
     else:
         message = "hey! You do not have permission to do this at this time."
