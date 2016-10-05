@@ -36,16 +36,12 @@ newState = {
     "winner": False,
 }
 
-# need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
-
 
 @app.route('/', methods=["POST"])
 def state():
     channel_id = str(request.form.get('channel_id'))
-    # newState['channel_id'] = channel_id
 
-    #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
-
+    print "what is this, ", channels.get(channel_id, "")
     if channels.get(channel_id, "") not in channels.keys():
         channels[channel_id] = helper.new_state(channels, channel_id)
 
