@@ -189,10 +189,12 @@ def board():
 
             # if board is/is not full but no winners:
             if channels.get(current_channel, " ").get('winner') == False:
-                for value in entryPositionNames.values():
+                for value in in_channel.values():
                     if value == " ":
-                        # #if there are still spaces available, continue
-                        # channel_id = request.form.get('channel_id')
+
+                        # if there are still spaces available, return turn. We can check
+                        # for " " like this because all values with " " at this point
+                        # are all square positions.
 
                         return jsonify({
                             'response_type': 'in_channel',
