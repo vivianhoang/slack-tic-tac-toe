@@ -234,7 +234,6 @@ def board():
     global slack_client
     channel_id = request.args.get('channel_id')
     print "this is my channel id ", channel_id
-    slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
@@ -247,6 +246,8 @@ def board():
                entryPositionNames['bottom-left'],
                entryPositionNames['bottom-middle'],
                entryPositionNames['bottom-right'])
+
+        slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
 
         # if there is a winner, end game
         if currentState.get('winner', "") == True:
