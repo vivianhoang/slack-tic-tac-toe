@@ -53,6 +53,7 @@ def state():
     print "hey my channels now", channels
     print channel_id
 
+    print " AGAIN Checking progress before it executes", current_channel, channels.get(current_channel, "").get("in_progress")
     if channels.get(channel_id, "").get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
@@ -113,7 +114,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        print "Checking progress before it executes",current_channel, channels.get(current_channel, "").get("in_progress")
+        print "Checking progress before it executes", current_channel, channels.get(current_channel, "").get("in_progress")
         if channels.get(current_channel, "").get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
@@ -128,7 +129,8 @@ def accept_invite():
         }
 
         in_channel['in_progress'] = True
-        print "I shouldve changed my specific channel only", newState
+        print "AFTER CHANGE ", current_channel, channels.get(current_channel, "").get("in_progress")
+
         in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
