@@ -50,7 +50,10 @@ def state():
     if channels.get('channel_id', newState) not in channels.keys():
         channels[channel_id] = newState
 
-    if channels.get('channel_id').get("in_progress") == False:
+    print "hey", channels
+    print channel_id
+
+    if channels.get("channel_id").get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
