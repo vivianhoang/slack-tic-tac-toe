@@ -107,7 +107,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        if channels.get(current_channel, newState).get("in_progress") == True:
+        if channels.get('current_channel', newState).get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
@@ -136,9 +136,10 @@ def accept_invite():
 def decline():
     current_channel = request.form.get("channel_id")
     if current_channel in channels.keys():
+        print channels
         declined = request.form.get('user_name')
 
-        if channels.get(current_channel, "").get('invited_user_name') == declined and channels.get(current_channel, "").get("in_progress") == False:
+        if channels.get('current_channel', "").get('invited_user_name') == declined and channels.get('current_channel', "").get("in_progress") == False:
             message = "@%s has declined the game." % channels['currenet_channel']['invited_user_name']
             return jsonify({
                 'response_type': 'in_channel',
@@ -154,7 +155,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    if current_channel in channels.keys() and channels.get(current_channel, newState).get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel', newState).get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
@@ -171,7 +172,7 @@ def board():
 
             in_channel = channels[current_channel]
             # if there is a winner, end game
-            if channels.get(current_channel, False).get('winner') == True:
+            if channels.get('current_channel', False).get('winner') == True:
                 # refreshing necessary newState keys
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
@@ -184,7 +185,7 @@ def board():
                     })
 
             # if board is/is not full but no winners:
-            if channels.get(current_channel, False).get('winner') == False:
+            if channels.get('current_channel', False).get('winner') == False:
                 for value in entryPositionNames.values():
                     if value == " ":
                         # #if there are still spaces available, continue
@@ -210,7 +211,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    if (current_channel in channels.keys()) and (channels.get(current_channel, newState).get('accepted_invite') == True):
+    if (current_channel in channels.keys()) and (channels.get('current_channel', newState).get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
         in_channel = channels[current_channel]
         current = in_channel.get('current_player')
@@ -286,7 +287,7 @@ def help():
 def end():
     """ """
     current_channel = request.form.get("channel_id")
-    if current_channel in channels.keys() and channels.get(current_channel, newState).get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel', newState).get('in_progress') == True:
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
