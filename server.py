@@ -171,7 +171,7 @@ def board():
 
             in_channel = channels[current_channel]
             # if there is a winner, end game
-            if channels.get('current_channel').get('winner') == True:
+            if channels.get('current_channel', False).get('winner') == True:
                 # refreshing necessary newState keys
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
@@ -184,7 +184,7 @@ def board():
                     })
 
             # if board is/is not full but no winners:
-            if channels.get('current_channel').get('winner') == False:
+            if channels.get('current_channel', False).get('winner') == False:
                 for value in entryPositionNames.values():
                     if value == " ":
                         # #if there are still spaces available, continue
