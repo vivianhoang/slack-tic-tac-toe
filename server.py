@@ -1,6 +1,5 @@
-from flask import Flask, request, redirect, Response, jsonify, url_for
-from helper import winner, restart_board
-import requests
+from flask import Flask, request, redirect, jsonify, url_for
+from helper import restart_board
 import os
 from slackclient import SlackClient
 
