@@ -14,34 +14,13 @@ app.secret_key = "ABC123"  # For example only
 
 channels = {}
 
-entryPositionNames = {
-    'top-left': " ",
-    'top-middle': " ",
-    'top-right': " ",
-    'middle-left': " ",
-    'middle': " ",
-    'middle-right': " ",
-    'bottom-left': " ",
-    'bottom-middle': " ",
-    'bottom-right': " ",
-}
-
-newState = {
-    "in_progress": False,
-    "creator": " ",
-    "invited_user_name": " ",
-    "accepted_invite": False,
-    "players": {},
-    "current_player": " ",
-    "winner": False,
-}
-
 
 @app.route('/', methods=["POST"])
 def state():
+    """Inviting someone to play a game."""
+
     channel_id = str(request.form.get('channel_id'))
 
-    print "what is this ", channel_id, channels
     if channel_id not in channels.keys():
         channels[channel_id] = helper.new_state(channels, channel_id)
 
@@ -62,8 +41,6 @@ def state():
             "user_id": user_id,
             "letter": "X"
         }
-
-        print "hey my channels if they arent in progress", channels
 
         response = slacker.users.list()
         r = response.body['members']
@@ -91,20 +68,19 @@ def state():
             })
 
     else:
-        print channels
         return "A game is already in session between @%s and @%s. To see the current game," \
                "enter '/ttt-board'" % (channels[channel_id]['creator'], channels[channel_id]['invited_user_name'])
 
 
 @app.route('/accept', methods=["POST"])
 def accept_invite():
+    """Accepting the game invitation."""
+
     current_channel = request.form.get("channel_id")
-    print "this is my current channel", current_channel
 
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        print "Checking progress before it executes", current_channel, channels.get(current_channel, "").get("in_progress")
         if channels.get(current_channel, "").get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
@@ -119,9 +95,6 @@ def accept_invite():
         }
 
         in_channel['in_progress'] = True
-        print "AFTER CHANGE ", current_channel, channels.get(current_channel, "").get("in_progress")
-        print "new channel dict, ", channels
-
         in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
@@ -135,6 +108,8 @@ def accept_invite():
 
 @app.route('/decline', methods=["POST"])
 def decline():
+    """Declining the game invitation."""
+
     current_channel = request.form.get("channel_id")
     if current_channel in channels.keys():
         print channels
@@ -157,6 +132,8 @@ def decline():
 
 @app.route('/board')
 def board():
+    """Displaying tic-tac-toe board."""
+
     current_channel = request.args.get("channel_id")
     if current_channel in channels.keys() and channels.get(current_channel, " ").get('in_progress') == True:
             in_channel = channels[current_channel]
@@ -172,14 +149,12 @@ def board():
                    in_channel['bottom-middle'],
                    in_channel['bottom-right'])
 
-            # channel_id = request.args.get('channel_id')
             slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
 
             in_channel = channels[current_channel]
             # if there is a winner, end game
             if channels.get(current_channel, " ").get('winner') == True:
                 # refreshing all necessary dict keys
-
                 helper.restart_board(channels, current_channel)
 
                 return jsonify({
@@ -215,6 +190,8 @@ def board():
 
 @app.route('/move', methods=["POST"])
 def move():
+    """Placing a letter on a square."""
+
     current_channel = request.form.get("channel_id")
     if (current_channel in channels.keys()) and (channels.get(current_channel, "").get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
@@ -258,13 +235,10 @@ def move():
 
             else:
                 # if it is a wrong move, valid moves are listed out
-                valid_moves = []
-                for key in entryPositionNames.keys():
-                    valid_moves.append(key)
 
-                valid_moves.sort()
-
-                return "Please enter a valid move: %s." % (", ".join(valid_moves))
+                return "Please enter a valid move: 'top-left', 'top-middle', " \
+                       "top-right', 'middle-left', 'middle', 'middle-right', " \
+                       "'bottom-left', 'bottom-middle', 'bottom-right'."
 
         else:
             return "Players make a move by entering /ttt-move [position]."
@@ -275,8 +249,8 @@ def move():
 
 @app.route('/more_help')
 def help():
-    """ """
-    print "I am groot"
+    """Displays slash command descriptions."""
+
     return ("/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n"
             "/ttt-accept -- Accept the game invitation.\n"
             "/ttt-decline -- Decline the game invitation.\n"
@@ -290,11 +264,10 @@ def help():
 
 @app.route('/end_game', methods=["POST"])
 def end():
-    """ """
+    """Ends game."""
+
     current_channel = request.form.get("channel_id")
     if current_channel in channels.keys() and channels.get(current_channel, "").get('in_progress') == True:
-        for key in entryPositionNames.keys():
-            entryPositionNames[key] = " "
 
         helper.restart_board(channels, current_channel)
 
