@@ -144,6 +144,7 @@ def accept_invite():
     current_channel = request.form.get("channel_id")
     print "/accept route channel_id", current_channel
     print "saved channel", currentState['channel_id']
+    print "game in progress? ", currentState['in_progress']
     if current_channel == currentState.get('channel_id'):
 
         user_id2 = request.form.get('user_id')
@@ -165,10 +166,11 @@ def accept_invite():
 
         currentState["in_progress"] = True
         channel_id = request.form.get('channel_id')
-
+        print "hello there!"
         return redirect(url_for('board', channel_id=channel_id))
 
     else:
+        print "what on earth"
         message = "You do not have permission to do this at this time."
         return jsonify({
             'response_type': 'in_channel',
