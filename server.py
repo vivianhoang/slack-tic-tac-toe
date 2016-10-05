@@ -237,14 +237,14 @@ def move():
 
 @app.route('/help')
 def help():
-    return "/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n" \
-            "/ttt-accept -- Accept the game invitation.\n" \
-            "/ttt-decline -- Decline the game invitation.\n" \
-            "/ttt-board -- View the game board.\n" \
-            "/ttt-move [position] -- Place a letter on an empty square. Positions include" \
-            "'top-left', 'top-middle', 'top-right', 'middle-left', 'middle-right'," \
-            "'bottom-left', 'bottom-middle', 'bottom-right'.\n" \
-            "/ttt-end -- End the game."
+    return ("/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n"
+            "/ttt-accept -- Accept the game invitation.\n"
+            "/ttt-decline -- Decline the game invitation.\n"
+            "/ttt-board -- View the game board.\n"
+            "/ttt-move [position] -- Place a letter on an empty square. Positions include"
+            "'top-left', 'top-middle', 'top-right', 'middle-left', 'middle-right',"
+            "'bottom-left', 'bottom-middle', 'bottom-right'.\n"
+            "/ttt-end -- End the game.")
 
 
 @app.route('/end_game', methods=["POST"])
