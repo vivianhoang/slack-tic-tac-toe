@@ -332,7 +332,6 @@ def move():
                     })
                 # return "This square is already taken. Please choose another."
             else:
-                print "oh gosh, ", currentState['players']
                 username = currentState['players'][person_submitted]['user_name']
                 print "!", username
 
@@ -343,7 +342,7 @@ def move():
                 # checks if the move constitues a win
                 if winner(entryPositionNames):
                     currentState['winner'] = True
-                    return redirect('/board')
+                    return redirect(url_for('board', channel_id=channel_id)
 
                 if currentState.get('current_player') == currentState['creator']:
                     currentState['current_player'] = currentState['invited_user_name']
