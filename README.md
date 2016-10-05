@@ -1,0 +1,31 @@
+[![Build Status](https://travis-ci.org/freesoft/Slack_TicTacToe.svg?branch=master)](https://travis-ci.org/freesoft/Slack_TicTacToe)
+
+# Slash Command Integration for Slack: Tic-Tac-Toe
+
+This is a slash command integration of tic-tac-toe that is playable for users within a Slack Team. There can be multiple games being played simultaneously within a team, but there can only be one game being played per channel. A player can only invite a perosn who exists within the team and cannot initiate a game by inviting themselves. If a player makes an invalid move or submits /ttt-help, a Slack bot will display more information that is only visible to that user. Every other command is visible. 
+
+Currently, the tic-tac-toe board displays normally on mobile and desktop, but not within mobile notifications.API tokens are currently stored in Heroku and the server automatically deploys when it is pushed to GitHub.
+
+
+## Commands
+
+Slack commands:
+
+- ___/ttt [@username]___ - Start a new game by inviting someone.
+- ___/ttt-accept___ - Accept the game invitation.
+- ___/ttt-decline___ - Decline the game invitation.
+- ___/ttt-board___ - Show game board.
+- ___/ttt-move [position]___ - Place a letter on an empty square. Positions include'top-left', 'top-middle', 'top-right', 'middle-left', 'middle-right','bottom-left', 'bottom-middle', 'bottom-right'.
+- ___/ttt-end___ - End Game.
+- ___/ttt-help___ - Displays the discription of each slash command availible for the game.
+
+
+### Technology Stack
+
+**Application:** Python, Flask, Jinja, PostgreSQL
+
+**APIs:** Slack: Slack Bots, Slash Commands
+
+**Host Service:** Heroku
+
+
