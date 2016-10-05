@@ -161,11 +161,11 @@ def state():
         #                 ]})
 
         slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
-        return "hi"
-        # return jsonify({
-        #     'response_type': 'in_channel',
-        #     'text': message
-        #     })
+
+        return jsonify({
+            'response_type': 'in_channel',
+            'text': message
+            })
         # return send_message(channel_id, message)
         # return response.send({"response_type": "in_channel",
         #                       "text": "%s wants to play tic-tac-toe with %s." % (user_name, invited_player),
