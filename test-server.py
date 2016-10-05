@@ -232,7 +232,9 @@ def decline():
 
 @app.route('/board')
 def board():
+    global slack_client
     channel_id = request.args.get('channel_id')
+    print "this is my channel id ", channel_id
 
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
