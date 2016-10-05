@@ -138,7 +138,7 @@ def decline():
     if current_channel in channels.keys():
         declined = request.form.get('user_name')
 
-        if channels.get('currenet_channel').get('invited_user_name') == declined and channels.get('current_channel').get("in_progress") == False:
+        if channels.get('currenet_channel', "").get('invited_user_name') == declined and channels.get('current_channel', "").get("in_progress") == False:
             message = "@%s has declined the game." % channels['currenet_channel']['invited_user_name']
             return jsonify({
                 'response_type': 'in_channel',
