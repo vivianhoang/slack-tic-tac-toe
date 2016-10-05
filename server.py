@@ -108,6 +108,7 @@ def state():
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     current_channel = request.form.get("channel_id")
+    print "this is my current channel", current_channel
 
     if current_channel in channels.keys():
 
@@ -126,6 +127,7 @@ def accept_invite():
         }
 
         in_channel['in_progress'] = True
+        print "I shouldve changed my specific channel only", newState
         in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
