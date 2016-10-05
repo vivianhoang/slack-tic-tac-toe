@@ -52,7 +52,8 @@ def state():
                     existing_users.append(value)
 
         # inviting yourself
-        if channels.get(channel_id).get("creator") == channels.get(channel_id).get('invited_user_name'):
+        if (channels.get(channel_id).get("creator") == 
+            channels.get(channel_id).get('invited_user_name')):
             return "You cannot invite yourself to play."
 
         # inviting someone non-existent in team
@@ -98,7 +99,8 @@ def accept_invite():
         in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
-        slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
+        slack_client.api_call("chat.postMessage", channel=current_channel,
+                              text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
 
         return redirect(url_for('board', channel_id=current_channel))
 
@@ -112,13 +114,12 @@ def decline():
 
     current_channel = request.form.get("channel_id")
     if current_channel in channels.keys():
-        print channels
         declined = request.form.get('user_name')
 
-        print declined, channels.get(current_channel, " ")
-
-        if channels.get(current_channel, "").get('invited_user_name') == declined and channels.get(current_channel, "").get("in_progress") == False:
+        if (channels.get(current_channel, "").get('invited_user_name') ==
+                declined and channels.get(current_channel, "").get("in_progress") == False):
             message = "@%s has declined the game." % channels[current_channel]['invited_user_name']
+            
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
@@ -135,7 +136,9 @@ def board():
     """Displaying tic-tac-toe board."""
 
     current_channel = request.args.get("channel_id")
-    if current_channel in channels.keys() and channels.get(current_channel, " ").get('in_progress') == True:
+    if (current_channel in channels.keys() and
+            channels.get(current_channel, " ").get('in_progress') == True):
+            
             in_channel = channels[current_channel]
 
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
@@ -149,7 +152,8 @@ def board():
                    in_channel['bottom-middle'],
                    in_channel['bottom-right'])
 
-            slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
+            slack_client.api_call("chat.postMessage", channel=current_channel,
+                                  text=message, username='Tic-Tac-Toe', icon_emoji=':ttt:')
 
             in_channel = channels[current_channel]
             # if there is a winner, end game
@@ -193,7 +197,9 @@ def move():
     """Placing a letter on a square."""
 
     current_channel = request.form.get("channel_id")
-    if (current_channel in channels.keys()) and (channels.get(current_channel, "").get('accepted_invite') == True):
+    if ((current_channel in channels.keys()) and
+            (channels.get(current_channel, "").get('accepted_invite') == True)):
+
         person_submitted = str(request.form.get('user_name'))
         in_channel = channels[current_channel]
         current = in_channel.get('current_player')
@@ -267,7 +273,8 @@ def end():
     """Ends game."""
 
     current_channel = request.form.get("channel_id")
-    if current_channel in channels.keys() and channels.get(current_channel, "").get('in_progress') == True:
+    if (current_channel in channels.keys() and
+            channels.get(current_channel, "").get('in_progress') == True):
 
         helper.restart_board(channels, current_channel)
 
