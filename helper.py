@@ -44,62 +44,62 @@ def restart_board(channels, channel_id):
     in_channel['bottom-right'] = " "
 
 
-def winner(entryPositionNames):
+def winner(channels, channel_id):
     """If there is a winner, the function will return true."""
 
     # top row
-    if ((entryPositionNames.get('top-left') != " ") and
-        entryPositionNames.get('top-left') ==
-        entryPositionNames.get('top-middle') ==
-            entryPositionNames.get('top-right')):
+    if ((channels.get(channel_id).get('middle-left') != " ") and
+        channels.get(channel_id).get('middle-left') ==
+        channels.get(channel_id).get('middle') ==
+            channels.get(channel_id).get('middle-right')):
         return True
 
     # middle row
-    if ((entryPositionNames.get('middle-left') != " ") and
-        entryPositionNames.get('middle-left') ==
-        entryPositionNames.get('middle') ==
-            entryPositionNames.get('middle-right')):
+    if ((channels.get(channel_id).get('middle-left') != " ") and
+        channels.get(channel_id).get('middle-left') ==
+        channels.get(channel_id).get('middle') ==
+            channels.get(channel_id).get('middle-right')):
         return True
 
     # bottom row
-    if ((entryPositionNames.get('bottom-left') != " ") and
-        entryPositionNames.get('bottom-left') ==
-        entryPositionNames.get('bottom-middle') ==
-            entryPositionNames.get('bottom-right')):
+    if ((channels.get(channel_id).get('bottom-left') != " ") and
+        channels.get(channel_id).get('bottom-left') ==
+        channels.get(channel_id).get('bottom-middle') ==
+            channels.get(channel_id).get('bottom-right')):
         return True
 
     # left
-    if ((entryPositionNames.get('top-left') != " ") and
-        entryPositionNames.get('top-left') ==
-        entryPositionNames.get('middle-left') ==
-            entryPositionNames.get('bottom-left')):
+    if ((channels.get(channel_id).get('top-left') != " ") and
+        channels.get(channel_id).get('top-left') ==
+        channels.get(channel_id).get('middle-left') ==
+            channels.get(channel_id).get('bottom-left')):
         return True
 
     # middle
-    if ((entryPositionNames.get('top-middle') != " ") and
-        entryPositionNames.get('top-middle') ==
-        entryPositionNames.get('middle') ==
-            entryPositionNames.get('bottom-middle')):
+    if ((channels.get(channel_id).get('top-middle') != " ") and
+        channels.get(channel_id).get('top-middle') ==
+        channels.get(channel_id).get('middle') ==
+            channels.get(channel_id).get('bottom-middle')):
         return True
 
     # right
-    if ((entryPositionNames.get('top-right') != " ") and
-        entryPositionNames.get('top-right') ==
-        entryPositionNames.get('middle-right') ==
-            entryPositionNames.get('bottom-right')):
+    if ((channels.get(channel_id).get('top-right') != " ") and
+        channels.get(channel_id).get('top-right') ==
+        channels.get(channel_id).get('middle-right') ==
+            channels.get(channel_id).get('bottom-right')):
         return True
 
     # diagonals
-    if ((entryPositionNames.get('top-left') != " ") and
-        entryPositionNames.get('top-left') ==
-        entryPositionNames.get('middle') ==
-            entryPositionNames.get('bottom-right')):
+    if ((channels.get(channel_id).get('top-left') != " ") and
+        channels.get(channel_id).get('top-left') ==
+        channels.get(channel_id).get('middle') ==
+            channels.get(channel_id).get('bottom-right')):
         return True
 
-    if ((entryPositionNames.get('top-right') != " ") and
-        entryPositionNames.get('top-right') ==
-        entryPositionNames.get('middle') ==
-            entryPositionNames.get('bottom-left')):
+    if ((channels.get(channel_id).get('top-right') != " ") and
+        channels.get(channel_id).get('top-right') ==
+        channels.get(channel_id).get('middle') ==
+            channels.get(channel_id).get('bottom-left')):
         return True
 
     else:

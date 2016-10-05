@@ -228,8 +228,8 @@ def move():
                 position = input_position
 
             # check if position is valid
-            if position in entryPositionNames:
-                currentPositionEntry = entryPositionNames.get(position)
+            if position in in_channel.keys():
+                currentPositionEntry = channels.get(current_channel).get(position)
                 # when a square is taken
                 if currentPositionEntry != " ":
                     return "This square is already taken. Please choose another."
@@ -237,10 +237,10 @@ def move():
                 # choosing an empty square
                 else:
                     current_letter = in_channel['players'][person_submitted]['letter']
-                    entryPositionNames[position] = current_letter
+                    in_channel[position] = current_letter
 
                     # checks if the move constitues a win
-                    if helper.winner(entryPositionNames):
+                    if helper.winner(channels, current_channel):
                         in_channel['winner'] = True
 
                         return redirect(url_for('board', channel_id=current_channel))
