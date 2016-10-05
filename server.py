@@ -41,11 +41,9 @@ newState = {
 def state():
     channel_id = str(request.form.get('channel_id'))
 
+    print "what is this ", channel_id, channels
     if channel_id not in channels.keys():
         channels[channel_id] = helper.new_state(channels, channel_id)
-
-    print "hey my channels now", channels
-    print channel_id
 
     if channels.get(channel_id, "").get("in_progress") == False:
         user_id = request.form.get('user_id')
