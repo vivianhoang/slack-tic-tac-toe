@@ -48,7 +48,7 @@ def state():
     print channels
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get("channel_id", newState).get("in_progress") == False:
+    if channels.get(channel_id, newState).get("in_progress") == False:
         print channels
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
@@ -77,11 +77,11 @@ def state():
                     existing_users.append(value)
 
         # inviting yourself
-        if channels.get("channel_id").get("creator") == channels.get("channel_id").get('invited_user_name'):
+        if channels.get(channel_id).get("creator") == channels.get(channel_id).get('invited_user_name'):
             return "You cannot invite yourself to play."
 
         # inviting someone non-existent in team
-        if channels.get("channel_id").get('invited_user_name') not in existing_users:
+        if channels.get(channel_id).get('invited_user_name') not in existing_users:
             return "That username does not exists."
 
         message = "@%s wants to play Tic-Tac-Toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
@@ -94,7 +94,7 @@ def state():
 
     else:
         return "A game is already in session between @%s and @%s. To see the current game," \
-               "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
+               "enter '/ttt-board'" % (channels[channel_id]['creator'], channels[channel_id]['invited_user_name'])
 
 
 @app.route('/accept', methods=["POST"])
@@ -103,8 +103,8 @@ def accept_invite():
 
     if current_channel in channels.keys():
 
-        in_channel = channels['current_channel']
-        if channels.get("channel_id", newState).get("in_progress") == True:
+        in_channel = channels[current_channel]
+        if channels.get(channel_id, newState).get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
@@ -166,7 +166,7 @@ def board():
             # channel_id = request.args.get('channel_id')
             slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
 
-            in_channel = channels['current_channel']
+            in_channel = channels[current_channel]
             # if there is a winner, end game
             if channels.get('current_channel').get('winner') == True:
                 # refreshing necessary newState keys
@@ -209,7 +209,7 @@ def move():
     current_channel = request.form.get("channel_id")
     if (current_channel in channels.keys()) and (channels.get('current_channel', newState).get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
-        in_channel = channels['current_channel']
+        in_channel = channels[current_channel]
         current = in_channel.get('current_player')
 
         if current == person_submitted:
