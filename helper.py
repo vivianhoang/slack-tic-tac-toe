@@ -1,4 +1,4 @@
-from server import entryPositionNames, channels
+from server import channels
 
 
 def new_state(channels, channel_id):
