@@ -46,8 +46,8 @@ def state():
 
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get('channel_id', newState) not in channels.keys():
-        channels[channel_id] = newState
+    if channels.get('channel_id', "") not in channels.keys():
+        channels[channel_id] = helper.new_state(channels, channel_id)
         print "wow my newState", newState
 
     print "hey my channels now", channels
@@ -113,7 +113,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        if channels.get('current_channel', newState).get("in_progress") == True:
+        if channels.get('current_channel', "").get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
@@ -164,7 +164,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    if current_channel in channels.keys() and channels.get('current_channel', newState).get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel', " ").get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
@@ -220,7 +220,7 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    if (current_channel in channels.keys()) and (channels.get(current_channel, newState).get('accepted_invite') == True):
+    if (current_channel in channels.keys()) and (channels.get(current_channel, "").get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
         in_channel = channels[current_channel]
         current = in_channel.get('current_player')
@@ -296,7 +296,7 @@ def help():
 def end():
     """ """
     current_channel = request.form.get("channel_id")
-    if current_channel in channels.keys() and channels.get(current_channel, newState).get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get(current_channel, "").get('in_progress') == True:
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
