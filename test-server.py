@@ -26,8 +26,8 @@ import requests
 import os
 from slackclient import SlackClient
 
-SLACK_TOKEN = os.environ['SLACK_TOKEN']
-TOKEN = os.environ['BOT_TOKEN']
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
+TOKEN = os.environ.get('BOT_TOKEN')
 slack_client = SlackClient(TOKEN)
 
 app = Flask(__name__)
