@@ -151,7 +151,7 @@ def state():
                 'text': "You cannot invite yourself to play! Try inviting someone else."
                 })
 
-        message = "@%s wants to play tic-tac-toe with %s. @%s, do you want to /accept or /decline?" % (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
+        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /accept or /decline?" % (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
 
         print "1 ", currentState['players']
 
@@ -217,7 +217,7 @@ def decline():
     declined = request.form.get('user_name')
 
     if currentState.get('invited_user_name', "") == declined and currentState.get("in_progress", "") == False:
-        message = "%s has declined the game." % currentState['invited_user_name']
+        message = "@%s has declined the game." % currentState['invited_user_name']
         return jsonify({
             'response_type': 'in_channel',
             'text': message
@@ -342,7 +342,7 @@ def move():
                 # return "This square is already taken. Please choose another."
             else:
                 print "oh gosh, ", currentState['players']
-                username = currentState['players'][person_submitted]
+                username = currentState['players'][person_submitted]['user_name']
                 print "!", username
 
                 current_letter = currentState['players'][person_submitted]['letter']
