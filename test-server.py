@@ -143,6 +143,7 @@ def state():
 def accept_invite():
     current_channel = request.form.get("channel_id")
     print "/accept route channel_id", current_channel
+    print "saved channel", currentState['channel_id']
     if current_channel == currentState.get('channel_id'):
 
         user_id2 = request.form.get('user_id')
