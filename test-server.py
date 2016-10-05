@@ -206,7 +206,7 @@ def decline():
 
 @app.route('/board')
 def board():
-    current_channel = request.form.get("channel_id")
+    current_channel = request.args.get("channel_id")
     print current_channel, currentState['channel_id'], currentState.get('in_progress')
     if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
