@@ -71,6 +71,15 @@ def winner(entryPositionNames):
     else:
         return False
 
+def restart_board():
+    """Restarting the board when the game ends or stops."""
+
+    currentState['in_progress'] = False
+    currentState['winner'] = False
+    currentState['channel_id'] = " "
+    currentState['players'] = {}
+    currentState['accepted_invite'] = False
+
 entryPositionNames = {
     'top-left': " ",
     'top-middle': " ",
@@ -206,11 +215,12 @@ def board():
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
 
-                currentState['in_progress'] = False
-                currentState['winner'] = False
-                currentState['channel_id'] = " "
-                currentState['players'] = {}
-                currentState['accepted_invite'] = False
+                restart_board()
+                # currentState['in_progress'] = False
+                # currentState['winner'] = False
+                # currentState['channel_id'] = " "
+                # currentState['players'] = {}
+                # currentState['accepted_invite'] = False
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -230,10 +240,11 @@ def board():
                             })
 
                 # when the game ends in a draw:
-                currentState['in_progress'] = False
-                currentState['channel_id'] = " "
-                currentState['players'] = {}
-                currentState['accepted_invite'] = False
+                restart_board():
+                # currentState['in_progress'] = False
+                # currentState['channel_id'] = " "
+                # currentState['players'] = {}
+                # currentState['accepted_invite'] = False
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -314,10 +325,11 @@ def end():
             for key in entryPositionNames.keys():
                 entryPositionNames[key] = " "
 
-            currentState['in_progress'] = False
-            currentState['channel_id'] = " "
-            currentState['players'] = {}
-            currentState['accepted_invite'] = False
+            restart_board():
+            # currentState['in_progress'] = False
+            # currentState['channel_id'] = " "
+            # currentState['players'] = {}
+            # currentState['accepted_invite'] = False
 
             message = "The game has ended."
             return jsonify({
