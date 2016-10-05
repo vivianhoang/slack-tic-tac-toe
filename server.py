@@ -43,10 +43,18 @@ currentState = {
 @app.route('/', methods=["POST"])
 def state():
     channel_id = request.form.get('channel_id')
-    currentState['channel_id'] = channel_id
+    # currentState['channel_id'] = channel_id
+    channels['channel_id'][channel_id] = {"in_progress": False,
+                                          "creator": " ",
+                                          "invited_user_name": " ",
+                                          "accepted_invite": False,
+                                          "players": {},
+                                          "current_player": " ",
+                                          "winner": False,
+                                          }
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if currentState.get("in_progress") == False:
+    if channels.get("channel_id").get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
@@ -55,9 +63,10 @@ def state():
         if not invited_player:
             return "Please invite someone to play with."
 
-        currentState['creator'] = user_name
-        currentState['invited_user_name'] = invited_player[1:]
-        currentState['players'][user_name] = {
+        in_channel = channels['channel_id']
+        in_channel['creator'] = user_name
+        in_channel['invited_user_name'] = invited_player[1:]
+        in_channel['players'][user_name] = {
             "user_name": user_name,
             "user_id": user_id,
             "letter": "X"
@@ -73,15 +82,15 @@ def state():
                     existing_users.append(value)
 
         # inviting yourself
-        if currentState.get('creator') == currentState.get('invited_user_name'):
+        if channels.get("channel_id").get("creator") == in_channel.get('invited_user_name'):
             return "You cannot invite yourself to play."
 
         # inviting someone non-existent in team
-        if currentState.get('invited_user_name') not in existing_users:
+        if channels.get("channel_id").get('invited_user_name') not in existing_users:
             return "That username does not exists."
 
         message = "@%s wants to play Tic-Tac-Toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
-                  (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
+                  (in_channel['creator'], in_channel['invited_user_name'], in_channel['invited_user_name'])
 
         return jsonify({
             'response_type': 'in_channel',
@@ -90,30 +99,31 @@ def state():
 
     else:
         return "A game is already in session between @%s and @%s. To see the current game," \
-               "enter '/ttt-board'" % (currentState['creator'], currentState['invited_user_name'])
+               "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
 
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     current_channel = request.form.get("channel_id")
 
-    if current_channel == currentState.get('channel_id'):
+    if current_channel in channels.keys():
+
+        in_channel = channels['current_channel']
+        if channels.get("channel_id").get("in_progress") == True:
+            return "A game is already in session between @%s and @%s. To see the current game," \
+                "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
         user_id2 = request.form.get('user_id')
         user_name2 = str(request.form.get('user_name'))
-        currentState['current_player'] = user_name2
-        currentState['players'][user_name2] = {
+        in_channel['current_player'] = user_name2
+        in_channel['players'][user_name2] = {
             "user_name": user_name2,
             "user_id": user_id2,
             "letter": "O"
         }
 
-        if currentState.get("in_progress") == True:
-            return "A game is already in session between @%s and @%s. To see the current game," \
-                "enter '/ttt-board'" % (currentState['creator'], currentState['invited_user_name'])
-
-        currentState['in_progress'] = True
-        currentState['accepted_invite'] = True
+        in_channel['in_progress'] = True
+        in_channel['accepted_invite'] = True
 
         message = "To see available commands, enter /ttt-help."
         slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
@@ -127,11 +137,11 @@ def accept_invite():
 @app.route('/decline', methods=["POST"])
 def decline():
     current_channel = request.form.get("channel_id")
-    if current_channel == currentState.get('channel_id'):
+    if current_channel in channels.keys():
         declined = request.form.get('user_name')
 
-        if currentState.get('invited_user_name') == declined and currentState.get("in_progress") == False:
-            message = "@%s has declined the game." % currentState['invited_user_name']
+        if channels.get('currenet_channel').get('invited_user_name') == declined and channels.get('current_channel').get("in_progress") == False:
+            message = "@%s has declined the game." % channels['currenet_channel']['invited_user_name']
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
@@ -146,7 +156,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel').get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
@@ -158,36 +168,37 @@ def board():
                    entryPositionNames['bottom-middle'],
                    entryPositionNames['bottom-right'])
 
-            channel_id = request.args.get('channel_id')
-            slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
+            # channel_id = request.args.get('channel_id')
+            slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
 
+            in_channel = channels['current_channel']
             # if there is a winner, end game
-            if currentState.get('winner') == True:
+            if channels.get('current_channel').get('winner') == True:
                 # refreshing necessary currentState keys
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
 
-                helper.restart_board(currentState)
+                helper.restart_board(channels, current_channel)
 
                 return jsonify({
                     'response_type': 'in_channel',
-                    'text': ("Game over. @%s wins!" % (currentState['current_player']))
+                    'text': ("Game over. @%s wins!" % (in_channel['current_player']))
                     })
 
-            # if board is full but no winners:
-            if currentState.get('winner') == False:
+            # if board is/is not full but no winners:
+            if channels.get('current_channel').get('winner') == False:
                 for value in entryPositionNames.values():
                     if value == " ":
-                        #if there are still spaces available, continue
-                        channel_id = request.form.get('channel_id')
+                        # #if there are still spaces available, continue
+                        # channel_id = request.form.get('channel_id')
 
                         return jsonify({
                             'response_type': 'in_channel',
-                            'text': ("It is @%s's turn!" % (currentState['current_player']))
+                            'text': ("It is @%s's turn!" % (in_channel['current_player']))
                             })
 
                 # when the game ends in a draw:
-                helper.restart_board(currentState)
+                helper.restart_board(channels, current_channel)
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -201,9 +212,10 @@ def board():
 @app.route('/move', methods=["POST"])
 def move():
     current_channel = request.form.get("channel_id")
-    if (current_channel == currentState.get('channel_id')) and (currentState.get('accepted_invite') == True):
+    if (current_channel in channels.keys()) and (channels.get('current_channel').get('accepted_invite') == True):
         person_submitted = str(request.form.get('user_name'))
-        current = currentState.get('current_player')
+        in_channel = channels['current_channel']
+        current = in_channel.get('current_player')
 
         if current == person_submitted:
             position = " "
@@ -222,21 +234,21 @@ def move():
 
                 # choosing an empty square
                 else:
-                    current_letter = currentState['players'][person_submitted]['letter']
+                    current_letter = in_channel['players'][person_submitted]['letter']
                     entryPositionNames[position] = current_letter
 
                     # checks if the move constitues a win
                     if helper.winner(entryPositionNames):
-                        currentState['winner'] = True
+                        in_channel['winner'] = True
 
                         return redirect(url_for('board', channel_id=current_channel))
 
                     # switching between current player and other player
-                    if currentState.get('current_player') == currentState['creator']:
-                        currentState['current_player'] = currentState['invited_user_name']
+                    if channels.get('current_channel').get('current_player') == in_channel['creator']:
+                        in_channel['current_player'] = in_channel['invited_user_name']
 
                     else:
-                        currentState['current_player'] = currentState['creator']
+                        in_channel['current_player'] = in_channel['creator']
 
                     return redirect(url_for('board', channel_id=current_channel))
 
@@ -244,7 +256,7 @@ def move():
                 # if it is a wrong move, valid moves are listed out
                 valid_moves = []
                 for key in entryPositionNames.keys():
-                    available_moves.append(key)
+                    valid_moves.append(key)
 
                 valid_moves.sort()
 
@@ -268,18 +280,19 @@ def help():
             "/ttt-move [position] -- Place a letter on an empty square. Positions include"
             "'top-left', 'top-middle', 'top-right', 'middle-left', 'middle-right',"
             "'bottom-left', 'bottom-middle', 'bottom-right'.\n"
-            "/ttt-end -- End the game.")
+            "/ttt-end -- End the game.\n\n"
+            "Check out https://en.wikipedia.org/wiki/Tic-tac-toe for more information.")
 
 
 @app.route('/end_game', methods=["POST"])
 def end():
     """ """
     current_channel = request.form.get("channel_id")
-    if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get('current_channel').get('in_progress') == True:
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
-        helper.restart_board(currentState)
+        helper.restart_board(channels, current_channel)
 
         message = "The game has ended."
         return jsonify({
