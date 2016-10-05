@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, Response, jsonify, url_for
-from helper import winner
+from helper import winner, restart_board
 import requests
 import os
 from slackclient import SlackClient
@@ -37,6 +37,7 @@ currentState = {
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
 # create a help option to show all options
 
+
 @app.route('/', methods=["POST"])
 def state():
     channel_id = request.form.get('channel_id')
@@ -58,7 +59,7 @@ def state():
         if currentState.get('creator') == currentState.get('invited_user_name'):
             return "You cannot invite yourself to play. You can invite another team member to play."
 
-        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to accept or decline?" % \
+        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
                   (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
 
         return jsonify({
@@ -120,7 +121,6 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    print current_channel, currentState['channel_id'], currentState.get('in_progress')
     if current_channel == currentState.get('channel_id') and currentState.get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
@@ -183,7 +183,7 @@ def move():
         if current == person_submitted:
             position = " "
 
-            # if player actually submits some text
+            # if player submits a text stating a move
             input_position = request.form.get('text')
             if input_position:
                 position = input_position
@@ -216,7 +216,7 @@ def move():
                     return redirect(url_for('board', channel_id=current_channel))
 
             else:
-                #if wrong move, list out valid moves
+                # if it is a wrong move, valid moves are listed out
                 valid_moves = []
                 for key in entryPositionNames.keys():
                     available_moves.append(key)
@@ -230,6 +230,18 @@ def move():
 
     else:
         return "You do not have permission to do this at this time."
+
+
+@app.route('/help')
+def help():
+    return "/ttt [@username] -- Invite a person to play tic-tac-toe.\n" \
+            "/ttt-accept -- Accept the game invitation.\n" \
+            "/ttt-decline -- Decline the game invitation.\n" \
+            "/ttt-board -- View the game board.\n" \
+            "/ttt-move [position] -- Place a letter on a square. Positions include" \
+            "'top-left', 'top-middle', 'top-right', 'middle-left', 'middle-right'," \
+            "'bottom-left', 'bottom-middle', 'bottom-right'.\n" \
+            "/ttt-end -- End the game."
 
 
 @app.route('/end_game', methods=["POST"])
@@ -246,9 +258,6 @@ def end():
             'response_type': 'in_channel',
             'text': message
             })
-
-        else:
-            return "You do not have permission to do this at this time."
 
     else:
         return "You do not have permission to do this at this time."
