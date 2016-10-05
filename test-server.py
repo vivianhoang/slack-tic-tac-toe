@@ -236,7 +236,7 @@ def decline():
 def board():
     print "in board route", currentState.get('in_progress', "")
     if currentState.get('in_progress', "") == True:
-        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n"``` \
+        message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
             % (entryPositionNames['top-left'],
                entryPositionNames['top-middle'],
                entryPositionNames['top-right'],
