@@ -306,7 +306,7 @@ def move():
 @app.route('/end_game')
 def end():
     current_channel = request.form.get("channel_id")
-    print "in /end game route", current_channel, currentState('channel_id')
+    print "in /end game route", current_channel, currentState['channel_id']
     if current_channel == currentState.get('channel_id'):
         # if user is creator or invited
         if currentState.get('in_progress') == True:
