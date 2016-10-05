@@ -256,8 +256,8 @@ def board():
             currentState['in_progress'] = False
             currentState['winner'] = False
             channel_id = request.form.get('channel_id')
-            slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
-            
+            slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
+
             return jsonify({
                 'response_type': 'in_channel',
                 'text': ("Game over. @%s wins!" % (currentState['current_player']))
@@ -269,7 +269,7 @@ def board():
                 if value == "    ":
                     #if there are still spaces available, continue
                     channel_id = request.form.get('channel_id')
-                    slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
+                    slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
                     return jsonify({
                         'response_type': 'in_channel',
                         'text': ("It is @%s's turn !" % (currentState['current_player']))
@@ -277,7 +277,7 @@ def board():
 
             # when the game ends in a draw:
             currentState['in_progress'] = False
-            slack_client.api_call("chat.postMessage", channel=channel_id, text='message', username='tic-tac-toe', icon_emoji=':robot_face:')
+            slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
 
             return jsonify({
                 'response_type': 'in_channel',
