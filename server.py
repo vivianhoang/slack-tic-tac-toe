@@ -144,6 +144,8 @@ def decline():
         print channels
         declined = request.form.get('user_name')
 
+        print declined, channels.get(current_channel, " ")
+
         if channels.get(current_channel, "").get('invited_user_name') == declined and channels.get(current_channel, "").get("in_progress") == False:
             message = "@%s has declined the game." % channels[current_channel]['invited_user_name']
             return jsonify({
