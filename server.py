@@ -46,7 +46,7 @@ def state():
 
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get('channel_id', "") not in channels.keys():
+    if channels.get(channel_id, "") not in channels.keys():
         channels[channel_id] = helper.new_state(channels, channel_id)
 
     print "hey my channels now", channels
