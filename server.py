@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, jsonify, url_for
-from helper import restart_board
+import helper
 import os
 from slackclient import SlackClient
 
@@ -146,7 +146,7 @@ def board():
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
 
-                restart_board()
+                helper.restart_board()
 
                 return jsonify({
                     'response_type': 'in_channel',
