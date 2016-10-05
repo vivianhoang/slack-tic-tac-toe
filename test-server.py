@@ -342,7 +342,7 @@ def move():
                 # checks if the move constitues a win
                 if winner(entryPositionNames):
                     currentState['winner'] = True
-                    return redirect(url_for('board', channel_id=channel_id)
+                    return redirect(url_for('board', channel_id=channel_id))
 
                 if currentState.get('current_player') == currentState['creator']:
                     currentState['current_player'] = currentState['invited_user_name']
