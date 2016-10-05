@@ -48,9 +48,9 @@ def state():
 
     if channels.get('channel_id', newState) not in channels.keys():
         channels[channel_id] = newState
-        print newState
+        print "wow my newState", newState
 
-    print "hey", channels
+    print "hey my channels now", channels
     print channel_id
 
     if channels.get(channel_id).get("in_progress") == False:
@@ -71,7 +71,7 @@ def state():
             "letter": "X"
         }
 
-        print channels
+        print "hey my channels if they arent in progress", channels
 
         response = slacker.users.list()
         r = response.body['members']
