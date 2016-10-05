@@ -1,7 +1,7 @@
 from server import entryPositionNames, currentState
 
 
-def restart_board():
+def restart_board(currentState):
     """Restarting the board when the game ends or stops."""
 
     currentState['in_progress'] = False

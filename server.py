@@ -146,7 +146,7 @@ def board():
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
 
-                helper.restart_board()
+                helper.restart_board(currentState)
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -166,7 +166,7 @@ def board():
                             })
 
                 # when the game ends in a draw:
-                helper.restart_board()
+                helper.restart_board(currentState)
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -258,7 +258,7 @@ def end():
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
-        helper.restart_board()
+        helper.restart_board(currentState)
 
         message = "The game has ended."
         return jsonify({
