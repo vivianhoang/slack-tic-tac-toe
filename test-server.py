@@ -161,7 +161,7 @@ def state():
         #                 ]})
 
         slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
-        return hi
+        return "hi"
         # return jsonify({
         #     'response_type': 'in_channel',
         #     'text': message
