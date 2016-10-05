@@ -165,9 +165,8 @@ def accept_invite():
                 })
 
         currentState["in_progress"] = True
-        channel_id = request.form.get('channel_id')
         print "hello there!"
-        return redirect(url_for('board', channel_id=channel_id))
+        return redirect(url_for('board', channel_id=current_channel))
 
     else:
         print "what on earth"
@@ -225,7 +224,7 @@ def board():
             slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
 
             # if there is a winner, end game
-            if currentState.get('winner', "") == True:
+            if currentState.get('winner') == True:
                 # refreshing necessary currentState keys
                 for key in entryPositionNames.keys():
                     entryPositionNames[key] = " "
@@ -242,7 +241,7 @@ def board():
                     })
 
             # if board is full but no winners:
-            if currentState.get('winner', "") == False:
+            if currentState.get('winner') == False:
                 for value in entryPositionNames.values():
                     if value == " ":
                         #if there are still spaces available, continue
