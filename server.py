@@ -214,9 +214,9 @@ def move():
 
             # check if position is valid
             if position in in_channel.keys():
-                currentPositionEntry = channels.get(current_channel).get(position)
+                current_entry = channels.get(current_channel).get(position)
                 # when a square is taken
-                if currentPositionEntry != " ":
+                if current_entry != " ":
                     return "This square is already taken. Please choose another."
 
                 # choosing an empty square
