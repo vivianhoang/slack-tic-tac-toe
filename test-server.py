@@ -140,7 +140,7 @@ def state():
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     current_channel = request.form.get("channel_id")
-    if current_channel = currentState['channel_id']
+    if current_channel = currentState['channel_id']:
 
         user_id2 = request.form.get('user_id')
         user_name2 = str(request.form.get('user_name'))
@@ -194,7 +194,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.form.get("channel_id")
-    if current_channel = currentState['channel_id']    
+    if current_channel = currentState['channel_id']:
         if currentState.get('in_progress', "") == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
@@ -220,6 +220,7 @@ def board():
                 currentState['winner'] = False
                 currentState['channel_id'] = " "
                 currentState['players'] = {}
+                currentState['accepted_invite'] = False
 
                 return jsonify({
                     'response_type': 'in_channel',
