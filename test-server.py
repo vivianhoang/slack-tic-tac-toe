@@ -110,7 +110,6 @@ currentState = {
 def state():
     channel_id = request.form.get('channel_id')
     currentState['channel_id'] = channel_id
-    print "First invite channel ID", currentState['channel_id']
 
     if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
@@ -144,9 +143,7 @@ def state():
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     current_channel = request.form.get("channel_id")
-    print "/accept route channel_id", current_channel
-    print "saved channel", currentState['channel_id']
-    print "game in progress? ", currentState['in_progress']
+
     if current_channel == currentState.get('channel_id'):
 
         user_id2 = request.form.get('user_id')
@@ -184,7 +181,6 @@ def decline():
                 })
         else:
             return "You do not have permission to do this at this time."
-
 
     else:
         return "You do not have permission to do this at this time."
@@ -240,7 +236,7 @@ def board():
                             })
 
                 # when the game ends in a draw:
-                restart_board():
+                restart_board()
                 # currentState['in_progress'] = False
                 # currentState['channel_id'] = " "
                 # currentState['players'] = {}
@@ -325,7 +321,7 @@ def end():
             for key in entryPositionNames.keys():
                 entryPositionNames[key] = " "
 
-            restart_board():
+            restart_board()
             # currentState['in_progress'] = False
             # currentState['channel_id'] = " "
             # currentState['players'] = {}
