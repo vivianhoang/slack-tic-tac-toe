@@ -113,7 +113,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
-        if channels.get('current_channel', "").get("in_progress") == True:
+        if channels.get(current_channel, "").get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
 
@@ -164,7 +164,7 @@ def decline():
 @app.route('/board')
 def board():
     current_channel = request.args.get("channel_id")
-    if current_channel in channels.keys() and channels.get('current_channel', " ").get('in_progress') == True:
+    if current_channel in channels.keys() and channels.get(current_channel, " ").get('in_progress') == True:
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
                 % (entryPositionNames['top-left'],
                    entryPositionNames['top-middle'],
