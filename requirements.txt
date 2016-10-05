@@ -9,5 +9,6 @@ itsdangerous==0.24
 requests==2.11.1
 six==1.10.0
 slackclient==1.0.2
+slacker==0.9.25
 websocket-client==0.37.0
 wsgiref==0.1.2

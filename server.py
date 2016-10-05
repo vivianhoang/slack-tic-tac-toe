@@ -2,10 +2,12 @@ from flask import Flask, request, redirect, jsonify, url_for
 import helper
 import os
 from slackclient import SlackClient
+from slacker import Slacker
 
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 TOKEN = os.environ.get('BOT_TOKEN')
 slack_client = SlackClient(TOKEN)
+slacker = Slacker(TOKEN)
 
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
@@ -42,6 +44,7 @@ currentState = {
 def state():
     channel_id = request.form.get('channel_id')
     currentState['channel_id'] = channel_id
+    #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
     if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
@@ -56,8 +59,22 @@ def state():
             "letter": "X"
         }
 
+        response = slack.users.list()
+        r = response.body['members']
+
+        existing_users = {}
+        for i in r:
+            for key, value in i.iteritems():
+                if j == "name":
+                    existing_users.append(value)
+
+        print existing_users
+
         if currentState.get('creator') == currentState.get('invited_user_name'):
-            return "You cannot invite yourself to play. You can invite another team member to play."
+            return "You cannot invite yourself to play."
+
+        if currentState.get('invited_user_name') not in existing_users:
+            return "That username does not exists."
 
         message = "@%s wants to play Tic-Tac-Toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
                   (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
