@@ -48,12 +48,10 @@ def state():
 
     if channels.get('channel_id', "") not in channels.keys():
         channels[channel_id] = helper.new_state(channels, channel_id)
-        print "wow my newState", newState
 
     print "hey my channels now", channels
     print channel_id
 
-    print " AGAIN Checking progress before it executes", channel_id, channels.get(channel_id, "").get("in_progress")
     if channels.get(channel_id, "").get("in_progress") == False:
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
@@ -130,6 +128,7 @@ def accept_invite():
 
         in_channel['in_progress'] = True
         print "AFTER CHANGE ", current_channel, channels.get(current_channel, "").get("in_progress")
+        print "new channel dict, ", channels
 
         in_channel['accepted_invite'] = True
 
