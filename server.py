@@ -35,7 +35,6 @@ currentState = {
 }
 
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
-# create a help option to show all options
 
 
 @app.route('/', methods=["POST"])
@@ -59,7 +58,7 @@ def state():
         if currentState.get('creator') == currentState.get('invited_user_name'):
             return "You cannot invite yourself to play. You can invite another team member to play."
 
-        message = "@%s wants to play tic-tac-toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
+        message = "@%s wants to play Tic-Tac-Toe with @%s. @%s, do you want to /ttt-accept or /ttt-decline?" % \
                   (currentState['creator'], currentState['invited_user_name'], currentState['invited_user_name'])
 
         return jsonify({
@@ -69,7 +68,7 @@ def state():
 
     else:
         return "A game is already in session between @%s and @%s. To see the current game," \
-                  "enter '/ttt-board'" % (currentState['creator'], currentState['invited_user_name'])
+               "enter '/ttt-board'" % (currentState['creator'], currentState['invited_user_name'])
 
 
 @app.route('/accept', methods=["POST"])
@@ -93,6 +92,10 @@ def accept_invite():
 
         currentState['in_progress'] = True
         currentState['accepted_invite'] = True
+
+        message = "To see available commands, enter /ttt-help."
+        slack_client.api_call("chat.postMessage", channel=current_channel, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
+
         return redirect(url_for('board', channel_id=current_channel))
 
     else:
@@ -134,7 +137,7 @@ def board():
                    entryPositionNames['bottom-right'])
 
             channel_id = request.args.get('channel_id')
-            slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
+            slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='Tic-Tac-Toe', icon_emoji=':robot_face:')
 
             # if there is a winner, end game
             if currentState.get('winner') == True:
@@ -158,7 +161,7 @@ def board():
 
                         return jsonify({
                             'response_type': 'in_channel',
-                            'text': ("It is @%s's turn! For instructions, enter /ttt-help." % (currentState['current_player']))
+                            'text': ("It is @%s's turn!" % (currentState['current_player']))
                             })
 
                 # when the game ends in a draw:
@@ -209,7 +212,7 @@ def move():
                     # switching between current player and other player
                     if currentState.get('current_player') == currentState['creator']:
                         currentState['current_player'] = currentState['invited_user_name']
-                    
+
                     else:
                         currentState['current_player'] = currentState['creator']
 
@@ -234,7 +237,7 @@ def move():
 
 @app.route('/help')
 def help():
-    return "/ttt [@username] -- Invite a person to play tic-tac-toe.\n" \
+    return "/ttt [@username] -- Invite a person to play Tic-Tac-Toe.\n" \
             "/ttt-accept -- Accept the game invitation.\n" \
             "/ttt-decline -- Decline the game invitation.\n" \
             "/ttt-board -- View the game board.\n" \
