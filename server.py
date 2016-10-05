@@ -34,7 +34,6 @@ newState = {
     "players": {},
     "current_player": " ",
     "winner": False,
-    # "channel_id": "",
 }
 
 # need to make sure I validate keys AND TEAM/CHANNEL ID or one game throughout whole slack test group
