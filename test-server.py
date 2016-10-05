@@ -101,6 +101,7 @@ currentState = {
 def state():
     channel_id = request.form.get('channel_id')
     currentState['channel_id'] = channel_id
+    print "First invite channel ID", currentState['channel_id']
 
     if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
@@ -141,6 +142,7 @@ def state():
 @app.route('/accept', methods=["POST"])
 def accept_invite():
     current_channel = request.form.get("channel_id")
+    print "/accept route channel_id", current_channel
     if current_channel == currentState.get('channel_id'):
 
         user_id2 = request.form.get('user_id')
