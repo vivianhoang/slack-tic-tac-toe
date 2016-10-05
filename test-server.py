@@ -100,6 +100,7 @@ currentState = {
 @app.route('/', methods=["POST"])
 def state():
     channel_id = request.form.get('channel_id')
+    currentState['channel_id'] = channel_id
 
     if currentState.get("in_progress") == False:
         user_id = request.form.get('user_id')
@@ -113,7 +114,6 @@ def state():
             "user_id": user_id,
             "letter": "X"
         }
-        channel_id = request.form.get('channel_id')
 
         if currentState.get('creator') == currentState.get('invited_user_name'):
             return jsonify({
