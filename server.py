@@ -59,13 +59,13 @@ def state():
             "letter": "X"
         }
 
-        response = slack.users.list()
+        response = slacker.users.list()
         r = response.body['members']
 
         existing_users = {}
         for i in r:
             for key, value in i.iteritems():
-                if j == "name":
+                if key == "name":
                     existing_users.append(value)
 
         print existing_users
@@ -104,7 +104,7 @@ def accept_invite():
             "letter": "O"
         }
 
-        if currentState.get("in_progress","") == True:
+        if currentState.get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (currentState['creator'], currentState['invited_user_name'])
 
