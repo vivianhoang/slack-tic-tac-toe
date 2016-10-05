@@ -166,7 +166,7 @@ def board():
                             })
 
                 # when the game ends in a draw:
-                restart_board()
+                helper.restart_board()
 
                 return jsonify({
                     'response_type': 'in_channel',
@@ -205,7 +205,7 @@ def move():
                     entryPositionNames[position] = current_letter
 
                     # checks if the move constitues a win
-                    if winner(entryPositionNames):
+                    if helper.winner(entryPositionNames):
                         currentState['winner'] = True
 
                         return redirect(url_for('board', channel_id=current_channel))
@@ -258,7 +258,7 @@ def end():
         for key in entryPositionNames.keys():
             entryPositionNames[key] = " "
 
-        restart_board()
+        helper.restart_board()
 
         message = "The game has ended."
         return jsonify({
