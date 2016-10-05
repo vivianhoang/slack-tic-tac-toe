@@ -12,7 +12,7 @@ slacker = Slacker(TOKEN)
 app = Flask(__name__)
 app.secret_key = "ABC123"  # For example only
 
-channels = {}
+channels = {"channel_id": {}}
 
 entryPositionNames = {
     'top-left': " ",
@@ -49,6 +49,7 @@ def state():
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
     if channels.get("channel_id", newState).get("in_progress") == False:
+        print channels
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
@@ -57,7 +58,7 @@ def state():
         if not invited_player:
             return "Please invite someone to play with."
 
-        in_channel = channels['channel_id']
+        in_channel = channels[channel_id]
         in_channel['creator'] = user_name
         in_channel['invited_user_name'] = invited_player[1:]
         in_channel['players'][user_name] = {
