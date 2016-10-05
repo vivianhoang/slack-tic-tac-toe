@@ -52,7 +52,7 @@ def state():
                     existing_users.append(value)
 
         # inviting yourself
-        if (channels.get(channel_id).get("creator") == 
+        if (channels.get(channel_id).get("creator") ==
             channels.get(channel_id).get('invited_user_name')):
             return "You cannot invite yourself to play."
 
@@ -119,7 +119,7 @@ def decline():
         if (channels.get(current_channel, "").get('invited_user_name') ==
                 declined and channels.get(current_channel, "").get("in_progress") == False):
             message = "@%s has declined the game." % channels[current_channel]['invited_user_name']
-            
+
             return jsonify({
                 'response_type': 'in_channel',
                 'text': message
@@ -138,7 +138,7 @@ def board():
     current_channel = request.args.get("channel_id")
     if (current_channel in channels.keys() and
             channels.get(current_channel, " ").get('in_progress') == True):
-            
+
             in_channel = channels[current_channel]
 
             message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
