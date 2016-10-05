@@ -2,7 +2,9 @@ from server import entryPositionNames, channels
 
 
 def new_state(channels, channel_id):
-    channels[channel_id] = {
+    """Creating a new key item in channels."""
+
+    return {
         "in_progress": False,
         "creator": " ",
         "invited_user_name": " ",
