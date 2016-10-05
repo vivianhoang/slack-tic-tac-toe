@@ -160,7 +160,8 @@ def state():
         #                      {"text": "%s, do you /accept or /decline?" % (invited_player)}
         #                 ]})
 
-        slack_client.api_call("chat.postMessage", channel=channel_id, text='lol', username='tic-tac-toe', icon_emoji=':robot_face:')
+
+        slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
 
         return jsonify({
             'response_type': 'in_channel',
