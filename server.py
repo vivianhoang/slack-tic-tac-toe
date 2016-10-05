@@ -113,6 +113,7 @@ def accept_invite():
     if current_channel in channels.keys():
 
         in_channel = channels[current_channel]
+        print "Checking progress before it executes",current_channel, channels.get(current_channel, "").get("in_progress")
         if channels.get(current_channel, "").get("in_progress") == True:
             return "A game is already in session between @%s and @%s. To see the current game," \
                 "enter '/ttt-board'" % (in_channel['creator'], in_channel['invited_user_name'])
