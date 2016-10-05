@@ -42,13 +42,12 @@ newState = {
 
 @app.route('/', methods=["POST"])
 def state():
-    channel_id = request.form.get('channel_id')
+    channel_id = str(request.form.get('channel_id'))
     # newState['channel_id'] = channel_id
 
-    print channels
     #channel['channel_id'] = {creator, inviter, invited, channel_id} PUT CURRENT STATE INSIDE
 
-    if channels.get(channel_id, newState).get("in_progress") == False:
+    if channels.get('channel_id', newState).get("in_progress") == False:
         print channels
         user_id = request.form.get('user_id')
         # needed to convert to string to prevent saving user_name as type_unicode
@@ -93,6 +92,8 @@ def state():
             })
 
     else:
+        channels[channel_id] = newState
+        print channels
         return "A game is already in session between @%s and @%s. To see the current game," \
                "enter '/ttt-board'" % (channels[channel_id]['creator'], channels[channel_id]['invited_user_name'])
 
