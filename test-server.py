@@ -232,7 +232,8 @@ def decline():
 
 @app.route('/board')
 def board():
-    global slack_client
+    channel_id = request.args.get('channel_id')
+
     if currentState.get('in_progress', "") == True:
         message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
             % (entryPositionNames['top-left'],
@@ -253,7 +254,7 @@ def board():
 
             currentState['in_progress'] = False
             currentState['winner'] = False
-            channel_id = request.form.get('channel_id')
+
             slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
 
             return jsonify({
@@ -308,6 +309,7 @@ def move():
     # person_submitted_id = request.form.get('user_id')
     current = currentState.get('current_player', "")
     print "THIS IS THE %s %s" % (person_submitted, current)
+    channel_id = request.form.get('channel_id')
 
     if current == person_submitted:
         position = 'hello'
@@ -351,7 +353,7 @@ def move():
 
                 # current_letter = currentState['players'][person_submitted]['letter']
                 print "this is the new current player: %s" % currentState['current_player']
-                return redirect('/board')
+                return redirect(url_for('board', channel_id=channel_id))
         else:
             #if wrong move, list out available move
             available_moves = []
