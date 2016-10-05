@@ -51,6 +51,10 @@ def state():
         # needed to convert to string to prevent saving user_name as type_unicode
         user_name = str(request.form.get('user_name'))
         invited_player = request.form.get('text')
+
+        if not invited_player:
+            return "Please invite someone to play with."
+
         currentState['creator'] = user_name
         currentState['invited_user_name'] = invited_player[1:]
         currentState['players'][user_name] = {
@@ -62,12 +66,13 @@ def state():
         response = slacker.users.list()
         r = response.body['members']
 
-        existing_users = {}
+        existing_users = []
         for i in r:
             for key, value in i.iteritems():
                 if key == "name":
                     existing_users.append(value)
 
+        ######
         print existing_users
 
         if currentState.get('creator') == currentState.get('invited_user_name'):
