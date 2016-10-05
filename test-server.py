@@ -268,6 +268,16 @@ def board():
                 if value == "    ":
                     #if there are still spaces available, continue
                     channel_id = request.form.get('channel_id')
+                    message = "```| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n|---+---+---|\n| %s | %s | %s |\n```" \
+                        % (entryPositionNames['top-left'],
+                           entryPositionNames['top-middle'],
+                           entryPositionNames['top-right'],
+                           entryPositionNames['middle-left'],
+                           entryPositionNames['middle'],
+                           entryPositionNames['middle-right'],
+                           entryPositionNames['bottom-left'],
+                           entryPositionNames['bottom-middle'],
+                           entryPositionNames['bottom-right'])
                     slack_client.api_call("chat.postMessage", channel=channel_id, text=message, username='tic-tac-toe', icon_emoji=':robot_face:')
                     return jsonify({
                         'response_type': 'in_channel',
