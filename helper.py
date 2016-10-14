@@ -30,7 +30,7 @@ def restart_board(channels, channel_id):
     in_channel = channels[channel_id]
     in_channel['in_progress'] = False
     in_channel['winner'] = False
-    in_channel['channel_id'] = " "
+    # in_channel['channel_id'] = " "
     in_channel['players'] = {}
     in_channel['accepted_invite'] = False
     in_channel['top-left'] = " "
