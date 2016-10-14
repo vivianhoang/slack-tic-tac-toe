@@ -174,14 +174,12 @@ def board():
                         # if there are still spaces available, return turn. We can check
                         # for " " like this because all values with " " at this point
                         # are all square positions.
-                        print "Coninue", channels
                         return jsonify({
                             'response_type': 'in_channel',
                             'text': ("It is @%s's turn!" % (in_channel['current_player']))
                             })
 
                 # when the game ends in a draw:
-                print "end", channels
                 helper.restart_board(channels, current_channel)
 
                 return jsonify({
