@@ -174,6 +174,7 @@ def board():
                         # if there are still spaces available, return turn. We can check
                         # for " " like this because all values with " " at this point
                         # are all square positions.
+
                         return jsonify({
                             'response_type': 'in_channel',
                             'text': ("It is @%s's turn!" % (in_channel['current_player']))
